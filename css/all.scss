@@ -1,0 +1,137 @@
+$red: #f00;
+$background-color: whitesmoke;
+$sidebar-width: 300px;
+$dark-gray: #666666;
+
+body{
+  background-color: white;
+  font-family: 'Open Sans', 'Century Gothic',Arial, Helvetica, sans-serif;
+
+  .question{
+    font-size: 12px;
+    font-weight: bold;
+  }
+  label{
+    font-size: 13px;
+  }
+
+  #enquete{
+    background-color: #d2a2a6;
+    border-radius: 5px;
+    padding: 5px;
+  }
+
+  #container{
+    width: 100%;
+    height: 100%;
+  }
+
+  #main-container{
+    position: absolute;
+    width: 100%;
+  }
+
+  #key-cloud{
+    width: 100%;
+    span{
+      letter-spacing: 1px;
+      margin-right: 10px;
+    }
+    pre{
+      display: inline-block;
+      margin: 1px;
+    }
+  }
+
+  .article{
+    background-color: $background-color;
+    position: absolute;
+    border: 5px solid white;
+    margin: -5px;
+  }
+
+  .article-inner{
+    display: block;
+    position: relative;
+    //letter-spacing: .05em;
+    padding: 10px;
+    h5{
+      font-size: 50%;
+      font-weight: normal;
+      display: inline-block;
+      margin: 2px 0;
+      letter-spacing: 1px;
+      width: 90%;
+      a{
+        color: $dark-gray;
+        text-decoration: none;
+      }
+    }
+    img{
+      max-height:50%;
+      max-width: 100%;
+      border-radius:5px;
+    }
+    .news-img{
+      max-height: 40%;
+      max-width: 100%;
+      margin: 5px;
+      float: left;
+      display: inline-block;
+    }
+    .news-text{
+      font-size : 70%;
+    }
+  }
+
+  h2{
+    letter-spacing: .05em;
+    margin: 5px 0px;
+    font-size: 110%;
+    font-weight: bold;
+    a{
+      color: #000000;
+      text-decoration: none;
+    }
+
+  }
+
+  #treemap{
+    display: inline-block;
+  }
+
+  #sidebar{
+    float:right;
+    width: $sidebar-width;
+    height: 100%;
+    border: 5px solid white;
+    margin: -5px;
+    background-color: $background-color;
+  }
+
+  #main_article{
+    position: absolute;
+    width: 100%;
+    height : 100px;
+    display: none;
+
+  }
+
+
+  .close_btn{
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 50px;
+    height: 50px;
+    background-color: $background-color;
+  }
+
+  .clear{
+    clear: both;
+  }
+
+  .pure-g {
+    letter-spacing: .05em;
+  }
+}

@@ -1,0 +1,65 @@
+{
+    "name": "flare",
+          "children": [
+    {
+      "name": "branch1",
+      "children": [
+        {"name": "1", "size": 25276}
+      ]
+    },
+    {
+      "name":"branch2",
+      "children":[
+        {"name": "2", "size": 7488}
+      ]
+    },
+    {
+      "name":"branch3",
+      "children":[
+        {"name": "3", "size": 16416}
+      ]
+    },
+    {
+      "name":"branch4",
+      "children":[
+        {"name": "4", "size": 17664}
+      ]
+    },
+    {
+      "name":"branch5",
+      "children":[
+        {"name": "5", "size": 7200}
+      ]
+    },
+    {
+      "name":"branch6",
+      "children":[
+        {"name": "6", "size": 17264}
+      ]
+    },
+    {
+      "name":"branch7",
+      "children":[
+        {"name": "7", "size": 11680}
+      ]
+    },
+    {
+      "name":"branch8",
+      "children":[
+        {"name": "8", "size": 17664}
+      ]
+    },
+    {
+      "name":"branch9",
+      "children":[
+        {"name": "9", "size": 12556}
+      ]
+    },
+    {
+      "name":"branch10",
+      "children":[
+       {"name": "10", "size": 34144}
+      ]
+    }
+  ]
+}

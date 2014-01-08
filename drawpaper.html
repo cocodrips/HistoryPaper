@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <title>-Historypaper-</title>
+  <meta name="Keywords" content="" />
+  <meta name="Description" content="ここ説明" />
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="css/pure-min.css"/>
+  <link rel="stylesheet" href="css/all.css"/>
+
+  <link rel="stylesheet"
+        href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,700italic,300,700">
+</head>
+<body>
+
+<div class="pure-menu pure-menu-open pure-menu-horizontal">
+  <ul>
+    <li>Newspaper</li>
+  </ul>
+  <input type="date" name="date" id="date">
+
+  
+
+</div>
+<div class="pure-g" id="container">
+<article  id="main-container">
+</article>
+
+<aside id="sidebar">
+  <div class="article-inner">
+    <h2>検索キーワード</h2>
+    <div id="key-cloud"></div>
+  
+  <div id="enquete">
+    <legend>アンケート</legend>
+
+    <form action="/upload" enctype="multipart/form-data" method="post" class="pure-form" name="form1" id="form1">
+
+    <p class='question'>この結果は自分にマッチしていると思いますか？</p>
+    <label for="ismatch" class="pure-radio">
+    <input id="ismatch" type="radio" name="ismatch" value="5">
+    4
+    </label>
+
+    <label for="ismatch" class="pure-radio">
+    <input id="ismatch" type="radio" name="ismatch" value="3">
+    3
+    </label>
+    <label for="ismatch" class="pure-radio">
+    <input id="ismatch" type="radio" name="ismatch" value="1">
+    2
+    </label>
+
+
+    <p class='question'>可視化結果はなにかを思い出したり振り返るきっかけになりましたか</p>
+    <label class="pure-radio">
+    <input type="radio" name="hasremember" value="1">
+    はい
+    </label>
+
+    <label class="pure-radio">
+        <input type="radio" name="hasremember" value="0">
+        いいえ
+    </label>
+    <br>  
+
+
+
+    <br>
+    <p class='question'>どちらかといえば記事の数は多いと思いますか？少ないと思いますか？</p>
+    <label class="pure-radio">
+    <input type="radio" name="toomany" value="1">
+    多い
+    </label>
+    <label class="pure-radio">
+    <input type="radio" name="toomany" value="0">
+    少ない
+    </label>
+
+    <br>
+
+    <p class='question'>必要じゃないページ、 追加されて欲しかったページなどがあれば、それがどんなページだったか教えてください</p>
+    <input name='etc' type="text">
+    <br>
+
+    <p class='question'>その他なにかあればご意見をお願いします。</p>
+    <input name="etc" type="text">
+    <br>
+    <div class="pure-button pure-button-error enq-submit">Submit</div>
+
+    </div> 
+
+  </div>
+</aside>
+
+</div>
+<div class="clear"></div>
+
+
+
+
+
+<script src="libs/zepto.min.js"></script>
+<script src="libs/underscore-min.js"></script>
+<script src="script/search-word-list.js"></script>
+<script src="script/js-library.js"></script>
+<script src="script/getJson.js"></script>
+<script src="script/historyController.js"></script>
+<script src="script/cluster.js"></script>
+
+<script src="libs/d3.v3.min.js"></script>
+<script src="script/style.js"></script>
+<script src="script/treemap.js"></script>
+<script src="script/enquete.js"></script>
+<!--<script src="script/draw-by-grid.js"></script>-->
+
+
+</body>
+</html>
