@@ -9,12 +9,18 @@
         "default_icon": "images/icon.png",
         "default_popup": "popup.html"
     },
+    "content_scripts": [
+        {
+            "matches": ["http://*/*", "https://*/*"],
+            "js": ["script/key.js", "libs/tiny_segmenter.js", "script/content.js"]
+        }
+    ],
     "permissions": [
         "history",
+        "http://*/*",
+        "https://*/*",
         "http://fonts.googleapis.com/*",
-        "http://itolabchica.appspot.com/*",
-        "http://api.flickr.com/",
-        "http://www25463ue.sakura.ne.jp/*",
-        "http://cocodrips.com/*"
+        "http://cocodrips.com/*",
+        "http://cocodrips.hateblo.jp/*"
     ]
 }

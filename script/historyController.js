@@ -32,7 +32,7 @@
     }, function(array) {
       var cluster;
       cluster = new Cluster(array);
-      return cluster.print_title();
+      return cluster.addKeys2History();
     });
   };
 

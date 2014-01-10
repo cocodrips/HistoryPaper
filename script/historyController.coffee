@@ -24,7 +24,7 @@ changeDate = (date)->
 #    jsonData = new CreateData(hashmap.sortedByTimes())
 #    getJsonData.request(jsonData.urlList);
     cluster = new Cluster(array)
-    cluster.print_title()
+    cluster.addKeys2History()
   )
 
 
