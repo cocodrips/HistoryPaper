@@ -39,10 +39,7 @@
   Hashmap = (function() {
     var create_hash;
 
-    function Hashmap(hash) {
-      this.hash = create_hash(hash);
-      this.hashSortedByTimes = "";
-    }
+    function Hashmap() {}
 
     create_hash = function(array) {
       var e, hash, id, _i, _len;

@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <title>-Historypaper-</title>
+  <meta name="Keywords" content="" />
+  <meta name="Description" content="ここ説明" />
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="css/pure-min.css"/>
+  <link rel="stylesheet" href="css/all.css"/>
+
+  <link rel="stylesheet"
+        href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,700italic,300,700">
+</head>
+<body>
+
+<div class="pure-menu pure-menu-open pure-menu-horizontal">
+  <ul>
+    <li>Newspaper</li>
+  </ul>
+  <input type="date" name="date" id="date">
+
+  
+
+</div>
+<div class="pure-g" id="container">
+<article  id="main-container">
+</article>
+
+<aside id="sidebar">
+  <div class="article-inner">
+    <h2>検索キーワード</h2>
+    <div id="key-cloud"></div>
+
+
+
+  </div>
+</aside>
+
+</div>
+<div class="clear"></div>
+
+
+
+
+
+
+
+<!--libraries-->
+<script src="libs/zepto.min.js"></script>
+<script src="libs/underscore-min.js"></script>
+<script src="libs/tiny_segmenter.js"></script>
+
+<script src="script/search-word-list.js"></script>
+<script src="script/js-library.js"></script>
+<script src="script/getJson.js"></script>
+
+<!--controller-->
+<script src="script/historyController.js"></script>
+<script src="controller/historyController.js"></script>
+
+<!--models-->
+<script src="script/cluster.js"></script>
+
+<script src="libs/d3.v3.min.js"></script>
+<script src="script/style.js"></script>
+<script src="script/treemap.js"></script>
+<!--<script src="script/draw-by-grid.js"></script>-->
+
+
+</body>
+</html>

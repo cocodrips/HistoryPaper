@@ -1,5 +1,4 @@
 $ ->
-# Main
   now = new Date()
   changeDate(now)
 
@@ -30,10 +29,6 @@ changeDate = (date)->
 
 
 class Hashmap
-  constructor:(hash)->
-    @hash = create_hash(hash)
-    @hashSortedByTimes = ""
-
   create_hash = (array) ->
     hash = []
     for e in array
