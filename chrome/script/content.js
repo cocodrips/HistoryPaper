@@ -3,16 +3,17 @@
   var hasContent, setContent;
 
   window.onload = function() {
-    var plain_text;
-    plain_text = document.documentElement.innerText;
-    return console.log(plain_text);
+    if (!hasContent("s")) {
+      return setContent("a", "Hello");
+    }
   };
 
-  hasContent = function(url, content) {
-    return chrome.storage.local.get(keys, function(items) {
+  hasContent = function(url) {
+    return chrome.storage.local.get([url], function(items) {
       if (chrome.extension.lastError !== void 0) {
         return false;
       } else {
+        console.log("------------historypaper", items);
         return true;
       }
     });
@@ -21,7 +22,7 @@
   setContent = function(url, content) {
     var data;
     data = {
-      url: [content, new Date()]
+      "a": [content, new Date()]
     };
     return chrome.storage.local.set(data, function() {
       if (chrome.extension.lastError !== void 0) {

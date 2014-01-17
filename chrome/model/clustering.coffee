@@ -3,9 +3,9 @@ class @Clustering
     @histories = histories
 
   addKeys2Histories: () ->
-    extractKeyword(history.title) for history in @histories
+    @extractKeyword(history.title) for history in @histories
 
-  extractKeyword = (title) ->
+  extractKeyword:(title) ->
     segmenter = new TinySegmenter()
     words = segmenter.segment(title)
     keywords = []
@@ -13,16 +13,16 @@ class @Clustering
       if isKeyword(word) then keywords.append(word)
     console.log keywords
 
-  isKeyword = (word) ->
+  isKeyword: (word) ->
     if word.length == 1
+      return false
+    if stopwords[word]
       return false
     return true
 #    pattern = []
 #    pattern.push(patternType(c)) for c in word.split("")
 
-
-
-  patternType = (c) ->
+  patternType:(c) ->
     patterns = {
       "[一二三四五六七八九十百千万億兆]":"M",
       "[一-龠々〆ヵヶ]":"H",
