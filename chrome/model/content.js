@@ -3,8 +3,10 @@
   var hasContent, setContent;
 
   window.onload = function() {
-    if (!hasContent("s")) {
-      return setContent("a", "Hello");
+    var plain_text;
+    plain_text = document.documentElement.innerText;
+    if (!hasContent(location.href)) {
+      return setContent(location.href, plain_text);
     }
   };
 

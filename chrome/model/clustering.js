@@ -11,23 +11,56 @@
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         history = _ref[_i];
-        _results.push(this.extractKeyword(history.title));
+        _results.push(this.extractKeyword(history));
       }
       return _results;
     };
 
-    Clustering.prototype.extractKeyword = function(title) {
+    Clustering.prototype.selectTopKeywords = function(n) {
+      var data, history, i, keyword, keywords, segmenter, topkeywords, word, words, _i, _j, _k, _len, _len1, _len2, _ref;
+      data = [];
+      _ref = this.histories;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        history = _ref[_i];
+        segmenter = new TinySegmenter();
+        words = segmenter.segment(history.title);
+        for (_j = 0, _len1 = words.length; _j < _len1; _j++) {
+          word = words[_j];
+          word = $.trim(word);
+          if (data[word]) {
+            data[word]++;
+          } else {
+            data[word] = 1;
+          }
+        }
+      }
+      keywords = this.sortByValue(data, true);
+      topkeywords = [];
+      i = 0;
+      for (_k = 0, _len2 = keywords.length; _k < _len2; _k++) {
+        keyword = keywords[_k];
+        if (!stopwords[keyword]) {
+          topkeywords.push(keyword);
+          if (++i >= n) {
+            break;
+          }
+        }
+      }
+      return topkeywords;
+    };
+
+    Clustering.prototype.extractKeyword = function(history) {
       var keywords, segmenter, word, words, _i, _len;
       segmenter = new TinySegmenter();
-      words = segmenter.segment(title);
+      words = segmenter.segment(history.title);
       keywords = [];
       for (_i = 0, _len = words.length; _i < _len; _i++) {
         word = words[_i];
-        if (isKeyword(word)) {
-          keywords.append(word);
+        if (this.isKeyword(word)) {
+          keywords.push(word);
         }
       }
-      return console.log(keywords);
+      return console.log(this.histories);
     };
 
     Clustering.prototype.isKeyword = function(word) {
@@ -40,24 +73,31 @@
       return true;
     };
 
-    Clustering.prototype.patternType = function(c) {
-      var key, patterns, re, _i, _len, _ref;
-      patterns = {
-        "[一二三四五六七八九十百千万億兆]": "M",
-        "[一-龠々〆ヵヶ]": "H",
-        "[ぁ-ん]": "I",
-        "[ァ-ヴーｱ-ﾝﾞｰ]": "K",
-        "[a-zA-Zａ-ｚＡ-Ｚ]": "A",
-        "[0-9０-９]": "N"
-      };
-      _ref = Object.keys(patterns);
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        key = _ref[_i];
-        re = new RegExp(key);
-        if (c.match(re)) {
-          return patterns[key];
-        }
+    Clustering.prototype.sortByValue = function(data, reverse) {
+      var e, k, l, v, z, _i, _len;
+      z = [];
+      for (k in data) {
+        v = data[k];
+        z.push([v, k]);
       }
+      z.sort(function(a, b) {
+        if (a[0] < b[0]) {
+          return -1;
+        }
+        if (a[0] > b[0]) {
+          return 1;
+        }
+        return 0;
+      });
+      if (reverse) {
+        z.reverse();
+      }
+      l = [];
+      for (_i = 0, _len = z.length; _i < _len; _i++) {
+        e = z[_i];
+        l.push(e[1]);
+      }
+      return l;
     };
 
     return Clustering;

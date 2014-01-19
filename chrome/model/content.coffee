@@ -1,8 +1,7 @@
 window.onload = ()->
-#  plain_text = document.documentElement.innerText
-#  console.log plain_text
-  if !hasContent("s")
-    setContent("a", "Hello")
+  plain_text = document.documentElement.innerText
+  if !hasContent(location.href)
+    setContent(location.href, plain_text)
 
 
 hasContent = (url)->
@@ -21,5 +20,7 @@ setContent = (url, content)->
       return false
     else
       return true
+
+
 
 

@@ -3,15 +3,41 @@ class @Clustering
     @histories = histories
 
   addKeys2Histories: () ->
-    @extractKeyword(history.title) for history in @histories
+    @extractKeyword(history) for history in @histories
 
-  extractKeyword:(title) ->
+
+  selectTopKeywords: (n)->
+    data = []
+    for history in @histories
+      segmenter = new TinySegmenter()
+      words = segmenter.segment(history.title)
+      for word in words
+        word = $.trim(word)
+        if data[word]
+          data[word]++
+        else
+          data[word] = 1
+
+    keywords = @sortByValue(data, true)
+
+    topkeywords = []
+    i = 0
+    for keyword in keywords
+      if !stopwords[keyword]
+        topkeywords.push(keyword)
+        if ++i >= n
+          break
+    return topkeywords
+
+
+
+  extractKeyword:(history) ->
     segmenter = new TinySegmenter()
-    words = segmenter.segment(title)
+    words = segmenter.segment(history.title)
     keywords = []
     for word in words
-      if isKeyword(word) then keywords.append(word)
-    console.log keywords
+      if @isKeyword(word) then keywords.push(word)
+    console.log @histories
 
   isKeyword: (word) ->
     if word.length == 1
@@ -19,19 +45,25 @@ class @Clustering
     if stopwords[word]
       return false
     return true
-#    pattern = []
-#    pattern.push(patternType(c)) for c in word.split("")
 
-  patternType:(c) ->
-    patterns = {
-      "[一二三四五六七八九十百千万億兆]":"M",
-      "[一-龠々〆ヵヶ]":"H",
-      "[ぁ-ん]":"I",
-      "[ァ-ヴーｱ-ﾝﾞｰ]":"K",
-      "[a-zA-Zａ-ｚＡ-Ｚ]":"A",
-      "[0-9０-９]":"N"
-    }
+  sortByValue:(data, reverse)->
+    z = []
+    for k,v of data
+      z.push([v, k])
 
-    for key in Object.keys(patterns)
-      re = new RegExp(key)
-      return patterns[key] if c.match(re)
+    z.sort((a, b)->
+      if a[0] < b[0]
+        return -1
+      if a[0] > b[0]
+        return 1
+      return 0
+    )
+    if reverse
+      z.reverse()
+    l = []
+    l.push(e[1]) for e in z
+    return l
+
+
+
+

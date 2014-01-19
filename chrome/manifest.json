@@ -12,7 +12,7 @@
     "content_scripts": [
         {
             "matches": ["http://*/*", "https://*/*"],
-            "js": ["script/content.js"]
+            "js": ["model/content.js"]
         }
     ],
     "permissions": [
