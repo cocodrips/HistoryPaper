@@ -2,10 +2,13 @@ class @Clustering
   constructor:(histories)->
     @searchWords=null
     @histories = @removeSearchHistory(histories)
-
-  clustering:()->
     @setWords2Histories()
     @setKeys2Histories()
+
+
+  clustering:()->
+    console.log "a"
+
 
   setKeys2Histories: () ->
     topKeywords = @selectTopKeywords(100)
@@ -57,7 +60,6 @@ class @Clustering
         topKeywords.push(keyword)
         if ++i >= n
           break
-    console.log topKeywords
     return topKeywords
 
   extractKeyword:(history) ->

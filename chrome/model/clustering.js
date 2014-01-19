@@ -4,11 +4,12 @@
     function Clustering(histories) {
       this.searchWords = null;
       this.histories = this.removeSearchHistory(histories);
+      this.setWords2Histories();
+      this.setKeys2Histories();
     }
 
     Clustering.prototype.clustering = function() {
-      this.setWords2Histories();
-      return this.setKeys2Histories();
+      return console.log("a");
     };
 
     Clustering.prototype.setKeys2Histories = function() {
@@ -101,7 +102,6 @@
           }
         }
       }
-      console.log(topKeywords);
       return topKeywords;
     };
 

@@ -4,14 +4,16 @@
     beforeEach(function() {
       return this.clustering = new Clustering(histories);
     });
-    afterEach(function() {});
     it("historiesにキーワード要素を追加", function() {
-      return this.clustering.addKeys2Histories();
+      this.clustering.setWords2Histories();
+      this.clustering.setKeys2Histories();
+      expect(this.clustering.histories[0].words).toEqual(['Jasmine', ' ', 'Spec', ' ', 'Runner', ' ', 'v', '2', '.', '0', '.', '0']);
+      return expect(this.clustering.histories[0].keywords).toEqual(["Jasmine", "Spec", "Runner"]);
     });
-    it("TOPキーワードの決定", function() {
+    it("selectTopKeywords: TOPキーワードの決定", function() {
       return expect(this.clustering.selectTopKeywords(5)).toEqual(['JavaScript', 'js', 'Underscore', '配列', 'オブジェクト']);
     });
-    return it("キーワードであるかどうかを判定する", function() {
+    return it("isKeyword: キーワードであるかどうかを判定する", function() {
       var target;
       target = "楽しい";
       expect(this.clustering.isKeyword(target)).toBeTruthy();
