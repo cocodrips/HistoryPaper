@@ -1,43 +1,69 @@
 class @Clustering
   constructor:(histories)->
-    @histories = histories
+    @searchWords=null
+    @histories = @removeSearchHistory(histories)
 
-  addKeys2Histories: () ->
-    @extractKeyword(history) for history in @histories
+  clustering:()->
+    @setWords2Histories()
+    @setKeys2Histories()
 
+  setKeys2Histories: () ->
+    topKeywords = @selectTopKeywords(100)
+    for history in @histories
+      keywords = []
+      for word in history.words
+        if _.contains(topKeywords, word)
+          keywords.push(word)
+      history.keywords = keywords
+    console.log @histories
+
+  setWords2Histories: ()->
+    for history in @histories
+      segmenter = new TinySegmenter()
+      history.words = segmenter.segment(history.title)
+
+  removeSearchHistory: (histories)->
+    words = {}
+    h = []
+    for history in histories
+      if history.url.indexOf("https://www.google.co.jp/search?") == -1
+        h.push(history)
+      q = history.url.match /\?q=.*?\&/
+      if !q
+        continue
+      try
+        q = decodeURI(q[0]).replace(/\?q=(.*?)\&/,'$1')
+        q = q.split /[\s,\+]+/
+        for query in q
+          if !words[query]
+            words[query] = 1
+          else
+            words[query] += 1
+    @searchWords = words
+    return h
 
   selectTopKeywords: (n)->
     data = []
     for history in @histories
-      segmenter = new TinySegmenter()
-      words = segmenter.segment(history.title)
-      for word in words
+      for word in history.words
         word = $.trim(word)
-        if data[word]
-          data[word]++
-        else
-          data[word] = 1
+        if data[word] then data[word]++ else data[word] = 1
 
     keywords = @sortByValue(data, true)
-
-    topkeywords = []
+    topKeywords = []
     i = 0
     for keyword in keywords
       if !stopwords[keyword]
-        topkeywords.push(keyword)
+        topKeywords.push(keyword)
         if ++i >= n
           break
-    return topkeywords
-
-
+    console.log topKeywords
+    return topKeywords
 
   extractKeyword:(history) ->
-    segmenter = new TinySegmenter()
-    words = segmenter.segment(history.title)
     keywords = []
-    for word in words
+    for word in history.words
       if @isKeyword(word) then keywords.push(word)
-    console.log @histories
 
   isKeyword: (word) ->
     if word.length == 1

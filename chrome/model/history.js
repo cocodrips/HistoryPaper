@@ -16,11 +16,11 @@
         "text": searchWord,
         "startTime": start,
         "endTime": end,
-        "maxResults": 10
+        "maxResults": 100
       }, function(array) {
         var clustering;
         clustering = new Clustering(array);
-        return clustering.addKeys2Histories();
+        return clustering.clustering();
       });
     };
 

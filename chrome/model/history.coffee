@@ -8,8 +8,8 @@ class @History
     end = Date.parse(date);
     jsonData = ""
 
-    chrome.history.search("text":searchWord, "startTime":start, "endTime":end, "maxResults":10,
+    chrome.history.search("text":searchWord, "startTime":start, "endTime":end, "maxResults":100,
       (array)=>
         clustering = new Clustering(array)
-        clustering.addKeys2Histories()
+        clustering.clustering()
     )

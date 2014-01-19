@@ -2,30 +2,85 @@
 (function() {
   this.Clustering = (function() {
     function Clustering(histories) {
-      this.histories = histories;
+      this.searchWords = null;
+      this.histories = this.removeSearchHistory(histories);
     }
 
-    Clustering.prototype.addKeys2Histories = function() {
-      var history, _i, _len, _ref, _results;
+    Clustering.prototype.clustering = function() {
+      this.setWords2Histories();
+      return this.setKeys2Histories();
+    };
+
+    Clustering.prototype.setKeys2Histories = function() {
+      var history, keywords, topKeywords, word, _i, _j, _len, _len1, _ref, _ref1;
+      topKeywords = this.selectTopKeywords(100);
+      _ref = this.histories;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        history = _ref[_i];
+        keywords = [];
+        _ref1 = history.words;
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          word = _ref1[_j];
+          if (_.contains(topKeywords, word)) {
+            keywords.push(word);
+          }
+        }
+        history.keywords = keywords;
+      }
+      return console.log(this.histories);
+    };
+
+    Clustering.prototype.setWords2Histories = function() {
+      var history, segmenter, _i, _len, _ref, _results;
       _ref = this.histories;
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         history = _ref[_i];
-        _results.push(this.extractKeyword(history));
+        segmenter = new TinySegmenter();
+        _results.push(history.words = segmenter.segment(history.title));
       }
       return _results;
     };
 
+    Clustering.prototype.removeSearchHistory = function(histories) {
+      var h, history, q, query, words, _i, _j, _len, _len1;
+      words = {};
+      h = [];
+      for (_i = 0, _len = histories.length; _i < _len; _i++) {
+        history = histories[_i];
+        if (history.url.indexOf("https://www.google.co.jp/search?") === -1) {
+          h.push(history);
+        }
+        q = history.url.match(/\?q=.*?\&/);
+        if (!q) {
+          continue;
+        }
+        try {
+          q = decodeURI(q[0]).replace(/\?q=(.*?)\&/, '$1');
+          q = q.split(/[\s,\+]+/);
+          for (_j = 0, _len1 = q.length; _j < _len1; _j++) {
+            query = q[_j];
+            if (!words[query]) {
+              words[query] = 1;
+            } else {
+              words[query] += 1;
+            }
+          }
+        } catch (_error) {}
+      }
+      this.searchWords = words;
+      return h;
+    };
+
     Clustering.prototype.selectTopKeywords = function(n) {
-      var data, history, i, keyword, keywords, segmenter, topkeywords, word, words, _i, _j, _k, _len, _len1, _len2, _ref;
+      var data, history, i, keyword, keywords, topKeywords, word, _i, _j, _k, _len, _len1, _len2, _ref, _ref1;
       data = [];
       _ref = this.histories;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         history = _ref[_i];
-        segmenter = new TinySegmenter();
-        words = segmenter.segment(history.title);
-        for (_j = 0, _len1 = words.length; _j < _len1; _j++) {
-          word = words[_j];
+        _ref1 = history.words;
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          word = _ref1[_j];
           word = $.trim(word);
           if (data[word]) {
             data[word]++;
@@ -35,32 +90,35 @@
         }
       }
       keywords = this.sortByValue(data, true);
-      topkeywords = [];
+      topKeywords = [];
       i = 0;
       for (_k = 0, _len2 = keywords.length; _k < _len2; _k++) {
         keyword = keywords[_k];
         if (!stopwords[keyword]) {
-          topkeywords.push(keyword);
+          topKeywords.push(keyword);
           if (++i >= n) {
             break;
           }
         }
       }
-      return topkeywords;
+      console.log(topKeywords);
+      return topKeywords;
     };
 
     Clustering.prototype.extractKeyword = function(history) {
-      var keywords, segmenter, word, words, _i, _len;
-      segmenter = new TinySegmenter();
-      words = segmenter.segment(history.title);
+      var keywords, word, _i, _len, _ref, _results;
       keywords = [];
-      for (_i = 0, _len = words.length; _i < _len; _i++) {
-        word = words[_i];
+      _ref = history.words;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        word = _ref[_i];
         if (this.isKeyword(word)) {
-          keywords.push(word);
+          _results.push(keywords.push(word));
+        } else {
+          _results.push(void 0);
         }
       }
-      return console.log(this.histories);
+      return _results;
     };
 
     Clustering.prototype.isKeyword = function(word) {
