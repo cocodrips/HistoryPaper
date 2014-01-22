@@ -8,27 +8,29 @@
       this.setKeys2Histories();
     }
 
-    Clustering.prototype.clustering = function() {
-      return console.log("a");
-    };
-
     Clustering.prototype.setKeys2Histories = function() {
-      var history, keywords, topKeywords, word, _i, _j, _len, _len1, _ref, _ref1;
+      var history, k, keywords, topKeywords, _i, _j, _len, _len1, _ref, _results;
       topKeywords = this.selectTopKeywords(100);
       _ref = this.histories;
+      _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         history = _ref[_i];
-        keywords = [];
-        _ref1 = history.words;
-        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-          word = _ref1[_j];
-          if (_.contains(topKeywords, word)) {
-            keywords.push(word);
+        keywords = {};
+        for (_j = 0, _len1 = topKeywords.length; _j < _len1; _j++) {
+          k = topKeywords[_j];
+          if (_.contains(history.words, k)) {
+            if (keywords[k]) {
+              keywords[k]++;
+            } else {
+              keywords[k] = 1;
+            }
+          } else {
+            keywords[k] = 0;
           }
         }
-        history.keywords = keywords;
+        _results.push(history.keywords = keywords);
       }
-      return console.log(this.histories);
+      return _results;
     };
 
     Clustering.prototype.setWords2Histories = function() {

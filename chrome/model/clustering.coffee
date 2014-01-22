@@ -6,19 +6,26 @@ class @Clustering
     @setKeys2Histories()
 
 
-  clustering:()->
-    console.log "a"
+#  clustering:()->
+
+#    kmeans = new KMeans()
 
 
   setKeys2Histories: () ->
     topKeywords = @selectTopKeywords(100)
+
+    # TODO: Improve the algorithm
     for history in @histories
-      keywords = []
-      for word in history.words
-        if _.contains(topKeywords, word)
-          keywords.push(word)
+      keywords = {}
+      for k in topKeywords
+        if _.contains(history.words, k)
+          if keywords[k]
+            keywords[k]++
+          else
+            keywords[k] = 1
+        else
+          keywords[k] = 0
       history.keywords = keywords
-    console.log @histories
 
   setWords2Histories: ()->
     for history in @histories
