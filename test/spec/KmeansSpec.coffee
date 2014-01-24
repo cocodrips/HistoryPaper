@@ -14,14 +14,14 @@
 #      zero[k] = 0
 #    expect(@coordinate.dist(zero)).toEqual(1.5811388300841898) #√5 / 2
 
-describe "Centroid", ->
-  beforeEach ->
-    keys = ['x', 'y']
-    @centroid = new Centroid(keys)
-
-  it "constructor", () ->
-    expect(@centroid.num).toEqual(0)
-    expect(@centroid.coordinate).toEqual({"x":0,"y":0})
+#describe "Centroid", ->
+#  beforeEach ->
+#    keys = ['x', 'y']
+#    @centroid = new Centroid(keys)
+#
+#  it "constructor", () ->
+#    expect(@centroid.num).toEqual(0)
+#    expect(@centroid.coordinate).toEqual({"x":0,"y":0})
 
 describe "Kmeans", ->
   beforeEach ->
@@ -37,19 +37,20 @@ describe "Kmeans", ->
     {0: 9, 1: 8, 2: 4, 3: 6, 4: 8, 5: 6, 6: 1, 7: 3, 8: 7, 9: 10}]
     @kmeans = new Kmeans(@data, 3)
 
-  #  afterEach ->
+
 
   it "constructor", () ->
     expect(@kmeans.dim).toEqual(10)
 
-  it "calcCentroids", () ->
-    console.log @kmeans.calcCentroids()
-#    expect(@kmeans.dim).toEqual(10);
+  it "start", () ->
+    @kmeans.start()
 
+  it "calcCentroids: クラスタの重心の計算", () ->
+    centroids =  @kmeans.calcCentroids()
+    expect(centroids[0].coordinate).toEqual({"0":6.25,"1":8.5,"2":3.75,"3":7.25,"4":8.75,"5":6.5,"6":4.25,"7":3,"8":6.25,"9":7});
 
+  it "distabce: 二点間の距離", () ->
+    a = {'x': 1, 'y':2, 'z':3}
+    b = {'x': 5, 'y':5, 'z':5}
+    expect(@kmeans.distance(a, b)).toEqual(5.385164807134504)
 
-
-
-#  it "dist", () ->
-#    console.log @kmeans.dist(@kmeans.coordinate[0], @kmeans.coordinate[1])
-#     expect(@kmeans).toEqual([ 'Jasmine', ' ', 'Spec', ' ', 'Runner', ' ', 'v', '2', '.', '0', '.', '0' ]);
