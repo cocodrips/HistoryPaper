@@ -3,7 +3,10 @@ class @Clustering
     @searchWords=null
     @histories = @removeSearchHistory(histories)
     clusterNum = @calcClusterNum()
-    @clusters = new Array(clusterNum)
+
+    @clusters = []
+    for i in [0...clusterNum]
+      @clusters[i] = []
 
   clustering:()->
     @setWords2Histories()
@@ -14,14 +17,14 @@ class @Clustering
       coordinates[i] = c
     kmeans = new Kmeans(coordinates, 10)
     objs = kmeans.start()
-    for obj, i  in objs
-      @clusters[obj.clusterId] = i
+    for obj, i in objs
+      @clusters[obj.clusterId].push(i)
 
   #TODO: naming
   getClusterHistories: (clusterId)->
     histories = []
     for i in @clusters[clusterId]
-      histories[i] = @histories
+      histories[i] = @histories[i]
     return histories
 
   setKeys2Histories: () ->

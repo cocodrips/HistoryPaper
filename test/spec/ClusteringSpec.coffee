@@ -28,5 +28,7 @@ describe "Clustering", ->
 
   it "getClusterHistories", () ->
     @clustering.clustering()
-    console.log @clustering.getClusterArticles(0)
+    histories = @clustering.getClusterHistories(0)
+    expect(histories[0].id).toEqual("15113")
+
 

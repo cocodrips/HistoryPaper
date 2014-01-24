@@ -2,11 +2,14 @@
 (function() {
   this.Clustering = (function() {
     function Clustering(histories) {
-      var clusterNum;
+      var clusterNum, i, _i;
       this.searchWords = null;
       this.histories = this.removeSearchHistory(histories);
       clusterNum = this.calcClusterNum();
-      this.clusters = new Array(clusterNum);
+      this.clusters = [];
+      for (i = _i = 0; 0 <= clusterNum ? _i < clusterNum : _i > clusterNum; i = 0 <= clusterNum ? ++_i : --_i) {
+        this.clusters[i] = [];
+      }
     }
 
     Clustering.prototype.clustering = function() {
@@ -25,7 +28,7 @@
       _results = [];
       for (i = _j = 0, _len1 = objs.length; _j < _len1; i = ++_j) {
         obj = objs[i];
-        _results.push(this.clusters[obj.clusterId] = i);
+        _results.push(this.clusters[obj.clusterId].push(i));
       }
       return _results;
     };
@@ -36,7 +39,7 @@
       _ref = this.clusters[clusterId];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         i = _ref[_i];
-        histories[i] = this.histories;
+        histories[i] = this.histories[i];
       }
       return histories;
     };

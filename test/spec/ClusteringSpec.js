@@ -127,8 +127,10 @@
       return expect(this.clustering.isKeyword(target)).toBeFalsy();
     });
     return it("getClusterHistories", function() {
+      var histories;
       this.clustering.clustering();
-      return console.log(this.clustering.getClusterArticles(0));
+      histories = this.clustering.getClusterHistories(0);
+      return expect(histories[0].id).toEqual("15113");
     });
   });
 
