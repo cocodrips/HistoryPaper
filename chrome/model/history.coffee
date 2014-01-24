@@ -11,6 +11,7 @@ class @History
     chrome.history.search("text":searchWord, "startTime":start, "endTime":end, "maxResults":100,
       (array)=>
         clustering = @clusteringHistories(array)
+        histories = @selectTopHistoryFromEachCluster(clustering)
     )
 
   clusteringHistories: (array)->
@@ -18,8 +19,16 @@ class @History
     clustering.clustering()
     return clustering
 
-#  selectArticle: ()->
-#
-#    return i
+  selectTopHistoryFromEachCluster: (clustering)->
+    histories = []
+    for i in clustering.clusters.length
+      histories[i] = @selectTopHistory(i)
+    console.log histories
+    return histories
+
+
+  selectTopHistory: (clusterId)->
+    selectTopFromCluster = new SelectTopFromCluster()
+    return i
 
 

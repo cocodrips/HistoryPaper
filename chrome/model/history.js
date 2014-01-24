@@ -18,8 +18,9 @@
         "endTime": end,
         "maxResults": 100
       }, function(array) {
-        var clustering;
-        return clustering = _this.clusteringHistories(array);
+        var clustering, histories;
+        clustering = _this.clusteringHistories(array);
+        return histories = _this.selectTopHistoryFromEachCluster(clustering);
       });
     };
 
@@ -28,6 +29,24 @@
       clustering = new Clustering(array);
       clustering.clustering();
       return clustering;
+    };
+
+    History.prototype.selectTopHistoryFromEachCluster = function(clustering) {
+      var histories, i, _i, _len, _ref;
+      histories = [];
+      _ref = clustering.clusters.length;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        i = _ref[_i];
+        histories[i] = this.selectTopHistory(i);
+      }
+      console.log(histories);
+      return histories;
+    };
+
+    History.prototype.selectTopHistory = function(clusterId) {
+      var selectTopFromCluster;
+      selectTopFromCluster = new SelectTopFromCluster();
+      return i;
     };
 
     return History;
