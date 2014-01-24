@@ -2,14 +2,27 @@ class @Clustering
   constructor:(histories)->
     @searchWords=null
     @histories = @removeSearchHistory(histories)
+    clusterNum = @calcClusterNum()
+    @clusters = new Array(clusterNum)
+
+  clustering:()->
     @setWords2Histories()
     @setKeys2Histories()
+    coordinates = []
+    for history, i in @histories
+      c = history.keywords
+      coordinates[i] = c
+    kmeans = new Kmeans(coordinates, 10)
+    objs = kmeans.start()
+    for obj, i  in objs
+      @clusters[obj.clusterId] = i
 
-
-#  clustering:()->
-
-#    kmeans = new KMeans()
-
+  #TODO: naming
+  getClusterHistories: (clusterId)->
+    histories = []
+    for i in @clusters[clusterId]
+      histories[i] = @histories
+    return histories
 
   setKeys2Histories: () ->
     topKeywords = @selectTopKeywords(100)
@@ -31,6 +44,9 @@ class @Clustering
     for history in @histories
       segmenter = new TinySegmenter()
       history.words = segmenter.segment(history.title)
+
+  calcClusterNum: ()->
+    return Math.min(@histories.length, 20)
 
   removeSearchHistory: (histories)->
     words = {}

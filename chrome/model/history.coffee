@@ -10,6 +10,16 @@ class @History
 
     chrome.history.search("text":searchWord, "startTime":start, "endTime":end, "maxResults":100,
       (array)=>
-        clustering = new Clustering(array)
-        clustering.clustering()
+        clustering = @clusteringHistories(array)
     )
+
+  clusteringHistories: (array)->
+    clustering = new Clustering(array)
+    clustering.clustering()
+    return clustering
+
+#  selectArticle: ()->
+#
+#    return i
+
+

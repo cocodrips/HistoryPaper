@@ -4,8 +4,12 @@
     beforeEach(function() {
       return this.clustering = new Clustering(histories);
     });
+    it("historiesにTopワードを追加", function() {
+      this.clustering.setWords2Histories();
+      return expect(this.clustering.histories[0].words).toEqual(['Jasmine', ' ', 'Spec', ' ', 'Runner', ' ', 'v', '2', '.', '0', '.', '0']);
+    });
     it("historiesにキーワード要素を追加", function() {
-      expect(this.clustering.histories[0].words).toEqual(['Jasmine', ' ', 'Spec', ' ', 'Runner', ' ', 'v', '2', '.', '0', '.', '0']);
+      this.clustering.setKeys2Histories();
       return expect(this.clustering.histories[0].keywords).toEqual({
         "JavaScript": 0,
         "js": 0,
@@ -110,9 +114,10 @@
       });
     });
     it("selectTopKeywords: TOPキーワードの決定", function() {
+      this.clustering.setWords2Histories();
       return expect(this.clustering.selectTopKeywords(5)).toEqual(['JavaScript', 'js', 'Underscore', '配列', 'オブジェクト']);
     });
-    return it("isKeyword: キーワードであるかどうかを判定する", function() {
+    it("isKeyword: キーワードであるかどうかを判定する", function() {
       var target;
       target = "楽しい";
       expect(this.clustering.isKeyword(target)).toBeTruthy();
@@ -120,6 +125,10 @@
       expect(this.clustering.isKeyword(target)).toBeFalsy();
       target = "今回";
       return expect(this.clustering.isKeyword(target)).toBeFalsy();
+    });
+    return it("getClusterHistories", function() {
+      this.clustering.clustering();
+      return console.log(this.clustering.getClusterArticles(0));
     });
   });
 

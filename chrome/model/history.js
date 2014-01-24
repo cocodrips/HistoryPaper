@@ -19,9 +19,15 @@
         "maxResults": 100
       }, function(array) {
         var clustering;
-        clustering = new Clustering(array);
-        return clustering.clustering();
+        return clustering = _this.clusteringHistories(array);
       });
+    };
+
+    History.prototype.clusteringHistories = function(array) {
+      var clustering;
+      clustering = new Clustering(array);
+      clustering.clustering();
+      return clustering;
     };
 
     return History;

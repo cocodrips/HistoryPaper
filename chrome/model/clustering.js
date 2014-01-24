@@ -2,11 +2,44 @@
 (function() {
   this.Clustering = (function() {
     function Clustering(histories) {
+      var clusterNum;
       this.searchWords = null;
       this.histories = this.removeSearchHistory(histories);
+      clusterNum = this.calcClusterNum();
+      this.clusters = new Array(clusterNum);
+    }
+
+    Clustering.prototype.clustering = function() {
+      var c, coordinates, history, i, kmeans, obj, objs, _i, _j, _len, _len1, _ref, _results;
       this.setWords2Histories();
       this.setKeys2Histories();
-    }
+      coordinates = [];
+      _ref = this.histories;
+      for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+        history = _ref[i];
+        c = history.keywords;
+        coordinates[i] = c;
+      }
+      kmeans = new Kmeans(coordinates, 10);
+      objs = kmeans.start();
+      _results = [];
+      for (i = _j = 0, _len1 = objs.length; _j < _len1; i = ++_j) {
+        obj = objs[i];
+        _results.push(this.clusters[obj.clusterId] = i);
+      }
+      return _results;
+    };
+
+    Clustering.prototype.getClusterHistories = function(clusterId) {
+      var histories, i, _i, _len, _ref;
+      histories = [];
+      _ref = this.clusters[clusterId];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        i = _ref[_i];
+        histories[i] = this.histories;
+      }
+      return histories;
+    };
 
     Clustering.prototype.setKeys2Histories = function() {
       var history, k, keywords, topKeywords, _i, _j, _len, _len1, _ref, _results;
@@ -43,6 +76,10 @@
         _results.push(history.words = segmenter.segment(history.title));
       }
       return _results;
+    };
+
+    Clustering.prototype.calcClusterNum = function() {
+      return Math.min(this.histories.length, 20);
     };
 
     Clustering.prototype.removeSearchHistory = function(histories) {
