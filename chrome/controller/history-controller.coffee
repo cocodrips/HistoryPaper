@@ -1,5 +1,3 @@
-console.log "dev version"
-
 class @HistoryController
   constructor: ()->
     @history = new History()

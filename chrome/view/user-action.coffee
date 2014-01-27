@@ -15,3 +15,6 @@ $ ->
       controller.changeDate(date)
     else
       console.log "We can't analyze your future."
+
+  lay = new Layout()
+  lay.createLayout()

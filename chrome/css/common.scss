@@ -1,0 +1,14 @@
+$red: #f00;
+$background-color: whitesmoke;
+$sidebar-width: 300px;
+$article-background: #666666;
+
+body{
+
+}
+
+.article{
+  border: 5px solid transparent;
+  background-color: $article-background;
+  box-sizing: border-box;
+}
