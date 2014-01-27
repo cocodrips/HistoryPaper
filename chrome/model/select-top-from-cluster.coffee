@@ -1,4 +1,4 @@
-class @selectTopFromCluster
+class @SelectTopFromCluster
   constructor: (articles)->
 
   # Todo: Naming

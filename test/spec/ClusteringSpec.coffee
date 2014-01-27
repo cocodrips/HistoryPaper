@@ -2,9 +2,6 @@ describe "Clustering", ->
   beforeEach ->
     @clustering = new Clustering(histories)
 
-
-#  afterEach ->
-
   it "historiesにTopワードを追加", () ->
     @clustering.setWords2Histories()
     expect(@clustering.histories[0].words).toEqual([ 'Jasmine', ' ', 'Spec', ' ', 'Runner', ' ', 'v', '2', '.', '0', '.', '0' ]);
@@ -26,7 +23,7 @@ describe "Clustering", ->
     target = "今回"
     expect(@clustering.isKeyword(target)).toBeFalsy()
 
-  it "getClusterHistories", () ->
+  it "getClusterHistories: クラスタのHistoryを配列にして返す", () ->
     @clustering.clustering()
     histories = @clustering.getClusterHistories(0)
     expect(histories[0].id).toEqual("15113")

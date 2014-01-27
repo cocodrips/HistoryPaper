@@ -3,7 +3,6 @@ class @Clustering
     @searchWords=null
     @histories = @removeSearchHistory(histories)
     clusterNum = @calcClusterNum()
-
     @clusters = []
     for i in [0...clusterNum]
       @clusters[i] = []

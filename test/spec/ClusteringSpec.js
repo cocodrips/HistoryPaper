@@ -126,7 +126,7 @@
       target = "今回";
       return expect(this.clustering.isKeyword(target)).toBeFalsy();
     });
-    return it("getClusterHistories", function() {
+    return it("getClusterHistories: クラスタのHistoryを配列にして返す", function() {
       var histories;
       this.clustering.clustering();
       histories = this.clustering.getClusterHistories(0);

@@ -20,7 +20,8 @@
       }, function(array) {
         var clustering, histories;
         clustering = _this.clusteringHistories(array);
-        return histories = _this.selectTopHistoryFromEachCluster(clustering);
+        histories = _this.selectTopHistoryFromEachCluster(clustering);
+        return console.log(histories);
       });
     };
 
@@ -32,21 +33,22 @@
     };
 
     History.prototype.selectTopHistoryFromEachCluster = function(clustering) {
-      var histories, i, _i, _len, _ref;
+      var cluster, histories, i, _i, _len, _ref;
       histories = [];
-      _ref = clustering.clusters.length;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        i = _ref[_i];
-        histories[i] = this.selectTopHistory(i);
+      _ref = clustering.clusters;
+      for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+        cluster = _ref[i];
+        histories[i] = this.selectTopHistory(clustering.getClusterHistories(i));
       }
-      console.log(histories);
       return histories;
     };
 
-    History.prototype.selectTopHistory = function(clusterId) {
-      var selectTopFromCluster;
-      selectTopFromCluster = new SelectTopFromCluster();
-      return i;
+    History.prototype.selectTopHistory = function(clusterHistories) {
+      var k, v;
+      for (k in clusterHistories) {
+        v = clusterHistories[k];
+        return v;
+      }
     };
 
     return History;
