@@ -4,11 +4,21 @@ $sidebar-width: 300px;
 $article-background: #666666;
 
 body{
+  height: 100%;
+  width: 100%;
 
 }
 
-.article{
-  border: 5px solid transparent;
-  background-color: $article-background;
-  box-sizing: border-box;
+.main-container{
+  width: 100%;
+  height: 100%;
+
+  .article{
+    position: absolute;
+    border: 5px solid transparent;
+    background-color: $article-background;
+    box-sizing: border-box;
+  }
+
 }
+
