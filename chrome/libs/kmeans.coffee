@@ -1,6 +1,3 @@
-class ClusteringObj
-  constructor: (@coordinate, @clusterId)->
-
 class Centroid
   constructor: (keys)->
     @num = 0
@@ -9,14 +6,15 @@ class Centroid
       @coordinate[k] = 0
 
 class @Kmeans
-  constructor: (coordinates, k)->
+  constructor: (objs, k)->
+    @objs = objs
     @k = k
-    @objKeys = Object.keys(coordinates[0])
+    @objKeys = Object.keys(objs[0].coordinate)
     @dim = @objKeys.length
 
-    @objs = []
-    for coordinate, i in coordinates
-      @objs[i] = new ClusteringObj(coordinate, i % k)
+    for obj, i in objs
+      obj.clusterId = i % k
+      @objs[i] = obj
 
   start: ()->
     for _ in [0...10]

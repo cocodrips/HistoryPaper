@@ -26,9 +26,9 @@
     };
 
     History.prototype.clusteringHistories = function(array) {
-      var clustering;
+      var clusterdHistories, clustering;
       clustering = new Clustering(array);
-      clustering.clustering();
+      clusterdHistories = clustering.getClusteredHistories();
       return clustering;
     };
 

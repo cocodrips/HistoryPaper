@@ -2,6 +2,7 @@
 (function() {
   describe("Kmeans", function() {
     beforeEach(function() {
+      var historyobj, i, _i;
       this.data = [
         {
           0: 6,
@@ -115,13 +116,18 @@
           9: 10
         }
       ];
-      return this.kmeans = new Kmeans(this.data, 3);
+      historyobj = [];
+      for (i = _i = 0; _i < 10; i = ++_i) {
+        historyobj[i] = new HistoryObject();
+        historyobj[i].coordinate = this.data[i];
+      }
+      return this.kmeans = new Kmeans(historyobj, 3);
     });
     it("constructor", function() {
       return expect(this.kmeans.dim).toEqual(10);
     });
     it("start", function() {
-      return this.kmeans.start();
+      return console.log(this.kmeans.start());
     });
     it("calcCentroids: クラスタの重心の計算", function() {
       var centroids;

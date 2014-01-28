@@ -1,23 +1,31 @@
 class @Clustering
   constructor:(histories)->
     @searchWords=null
-    @histories = @removeSearchHistory(histories)
+    @histories = @createHistoryObject(histories)
     clusterNum = @calcClusterNum()
     @clusters = []
     for i in [0...clusterNum]
       @clusters[i] = []
 
-  clustering:()->
+  getClusteredHistories:()->
     @setWords2Histories()
     @setKeys2Histories()
-    coordinates = []
-    for history, i in @histories
-      c = history.keywords
-      coordinates[i] = c
-    kmeans = new Kmeans(coordinates, 10)
+    kmeans = new Kmeans(@histories, 10)
     objs = kmeans.start()
     for obj, i in objs
       @clusters[obj.clusterId].push(i)
+    return objs
+
+  # bad parts
+  createHistoryObject: (histories)->
+    histories = @removeSearchHistory(histories)
+    historyObjs = []
+    for history, i in histories
+      obj = new HistoryObject()
+      for k, v of history
+        obj[k] = v
+      historyObjs[i] = obj
+    return historyObjs
 
   #TODO: naming
   getClusterHistories: (clusterId)->
@@ -26,9 +34,9 @@ class @Clustering
       histories[i] = @histories[i]
     return histories
 
+  # set keyword as coordinate
   setKeys2Histories: () ->
     topKeywords = @selectTopKeywords(100)
-
     # TODO: Improve the algorithm
     for history in @histories
       keywords = {}
@@ -40,7 +48,7 @@ class @Clustering
             keywords[k] = 1
         else
           keywords[k] = 0
-      history.keywords = keywords
+      history.coordinate = keywords
 
   setWords2Histories: ()->
     for history in @histories

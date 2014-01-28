@@ -9,6 +9,13 @@
       this.content = "Hello, World!";
       this.score = 0;
       this.clusterId = 0;
+      this.coordinate = {};
+      this.word = [];
+      this.title = '';
+      this.lastVisitTime = 0;
+      this.typedCount = 0;
+      this.url = '';
+      this.visitCount = '';
     }
 
     return HistoryObject;

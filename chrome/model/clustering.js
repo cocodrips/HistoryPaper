@@ -4,7 +4,7 @@
     function Clustering(histories) {
       var clusterNum, i, _i;
       this.searchWords = null;
-      this.histories = this.removeSearchHistory(histories);
+      this.histories = this.createHistoryObject(histories);
       clusterNum = this.calcClusterNum();
       this.clusters = [];
       for (i = _i = 0; 0 <= clusterNum ? _i < clusterNum : _i > clusterNum; i = 0 <= clusterNum ? ++_i : --_i) {
@@ -12,25 +12,33 @@
       }
     }
 
-    Clustering.prototype.clustering = function() {
-      var c, coordinates, history, i, kmeans, obj, objs, _i, _j, _len, _len1, _ref, _results;
+    Clustering.prototype.getClusteredHistories = function() {
+      var i, kmeans, obj, objs, _i, _len;
       this.setWords2Histories();
       this.setKeys2Histories();
-      coordinates = [];
-      _ref = this.histories;
-      for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-        history = _ref[i];
-        c = history.keywords;
-        coordinates[i] = c;
-      }
-      kmeans = new Kmeans(coordinates, 10);
+      kmeans = new Kmeans(this.histories, 10);
       objs = kmeans.start();
-      _results = [];
-      for (i = _j = 0, _len1 = objs.length; _j < _len1; i = ++_j) {
+      for (i = _i = 0, _len = objs.length; _i < _len; i = ++_i) {
         obj = objs[i];
-        _results.push(this.clusters[obj.clusterId].push(i));
+        this.clusters[obj.clusterId].push(i);
       }
-      return _results;
+      return objs;
+    };
+
+    Clustering.prototype.createHistoryObject = function(histories) {
+      var history, historyObjs, i, k, obj, v, _i, _len;
+      histories = this.removeSearchHistory(histories);
+      historyObjs = [];
+      for (i = _i = 0, _len = histories.length; _i < _len; i = ++_i) {
+        history = histories[i];
+        obj = new HistoryObject();
+        for (k in history) {
+          v = history[k];
+          obj[k] = v;
+        }
+        historyObjs[i] = obj;
+      }
+      return historyObjs;
     };
 
     Clustering.prototype.getClusterHistories = function(clusterId) {
@@ -64,7 +72,7 @@
             keywords[k] = 0;
           }
         }
-        _results.push(history.keywords = keywords);
+        _results.push(history.coordinate = keywords);
       }
       return _results;
     };

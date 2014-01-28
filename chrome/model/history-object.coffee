@@ -7,3 +7,11 @@ class @HistoryObject
     @content = "Hello, World!"
     @score = 0
     @clusterId = 0
+    @coordinate = {}
+    @word = []
+#    api
+    @title = ''
+    @lastVisitTime = 0
+    @typedCount = 0
+    @url = ''
+    @visitCount = ''

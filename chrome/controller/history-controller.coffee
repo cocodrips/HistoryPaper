@@ -4,7 +4,7 @@ class @HistoryController
 
   firstDate: ()->
     now = new Date()
-    @.changeDate(now)
+    @changeDate(now)
 
   changeDate: (date)->
     @history.changeDate(date)

@@ -17,7 +17,8 @@ class @History
 
   clusteringHistories: (array)->
     clustering = new Clustering(array)
-    clustering.clustering()
+    clusterdHistories = clustering.getClusteredHistories()
+
     return clustering
 
   selectTopHistoryFromEachCluster: (clustering)->

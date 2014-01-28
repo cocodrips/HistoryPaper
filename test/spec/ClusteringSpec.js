@@ -9,8 +9,9 @@
       return expect(this.clustering.histories[0].words).toEqual(['Jasmine', ' ', 'Spec', ' ', 'Runner', ' ', 'v', '2', '.', '0', '.', '0']);
     });
     it("historiesにキーワード要素を追加", function() {
+      this.clustering.setWords2Histories();
       this.clustering.setKeys2Histories();
-      return expect(this.clustering.histories[0].keywords).toEqual({
+      return expect(this.clustering.histories[0].coordinate).toEqual({
         "JavaScript": 0,
         "js": 0,
         "Underscore": 0,
@@ -128,7 +129,7 @@
     });
     return it("getClusterHistories: クラスタのHistoryを配列にして返す", function() {
       var histories;
-      this.clustering.clustering();
+      this.clustering.getClusteredHistories();
       histories = this.clustering.getClusterHistories(0);
       return expect(histories[0].id).toEqual("15113");
     });

@@ -35,15 +35,17 @@ describe "Kmeans", ->
     {0: 10, 1: 7, 2: 5, 3: 2, 4: 3, 5:10, 6: 1, 7: 5, 8: 3, 9: 9},
     {0: 7, 1: 10, 2: 3, 3: 3, 4: 9, 5: 6, 6: 1, 7: 6, 8: 10, 9: 3},
     {0: 9, 1: 8, 2: 4, 3: 6, 4: 8, 5: 6, 6: 1, 7: 3, 8: 7, 9: 10}]
-    @kmeans = new Kmeans(@data, 3)
-
-
+    historyobj = []
+    for i in [0...10]
+      historyobj[i] = new HistoryObject()
+      historyobj[i].coordinate = @data[i]
+    @kmeans = new Kmeans(historyobj, 3)
 
   it "constructor", () ->
     expect(@kmeans.dim).toEqual(10)
 
   it "start", () ->
-    @kmeans.start()
+    console.log @kmeans.start()
 
   it "calcCentroids: クラスタの重心の計算", () ->
     centroids =  @kmeans.calcCentroids()
