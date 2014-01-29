@@ -1,24 +1,23 @@
 class @Clustering
   constructor:(histories)->
-    @searchWords=null
+    @searchWords=[]
     @histories = @createHistoryObject(histories)
     clusterNum = @calcClusterNum()
     @clusters = []
     for i in [0...clusterNum]
       @clusters[i] = []
 
-  getClusteredHistories:()->
+  clusteringHistories:()->
     @setWords2Histories()
     @setKeys2Histories()
-    kmeans = new Kmeans(@histories, 10)
+    kmeans = new Kmeans(@histories, @clusters.length)
     objs = kmeans.start()
     for obj, i in objs
       @clusters[obj.clusterId].push(i)
-    return objs
 
   # bad parts
   createHistoryObject: (histories)->
-    histories = @removeSearchHistory(histories)
+    histories = @exceptHistories(histories)
     historyObjs = []
     for history, i in histories
       obj = new HistoryObject()
@@ -30,7 +29,7 @@ class @Clustering
   #TODO: naming
   getClusterHistories: (clusterId)->
     histories = []
-    for i in @clusters[clusterId]
+    for i in [0...@clusters[clusterId].length]
       histories[i] = @histories[i]
     return histories
 
@@ -58,25 +57,35 @@ class @Clustering
   calcClusterNum: ()->
     return Math.min(@histories.length, 20)
 
-  removeSearchHistory: (histories)->
-    words = {}
+  exceptHistories: (histories)->
     h = []
     for history in histories
-      if history.url.indexOf("https://www.google.co.jp/search?") == -1
+      if @canSelect(history)
         h.push(history)
-      q = history.url.match /\?q=.*?\&/
-      if !q
-        continue
-      try
-        q = decodeURI(q[0]).replace(/\?q=(.*?)\&/,'$1')
-        q = q.split /[\s,\+]+/
-        for query in q
-          if !words[query]
-            words[query] = 1
-          else
-            words[query] += 1
-    @searchWords = words
     return h
+
+  canSelect: (history)->
+    if history.url.indexOf("https://www.google.co.jp/search?") > -1
+      @registSearchWord(history)
+      return false
+
+    pageType = history.url.split("/").pop()
+    target = ["png", "jpg", "mp3"]
+    for t in target
+      if pageType.indexOf(t) != -1
+        return false
+    return true
+
+  registSearchWord: (history)->
+    q = history.url.match /\?q=.*?\&/
+    if !q
+      return
+    try
+      q = decodeURI(q[0]).replace(/\?q=(.*?)\&/,'$1')
+      q = q.split /[\s,\+]+/
+      for query in q
+        if @searchWords[query] then @searchWords[query]++ else  @searchWords[query]=1
+
 
   selectTopKeywords: (n)->
     data = []

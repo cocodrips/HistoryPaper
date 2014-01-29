@@ -7,7 +7,6 @@
       this.width = 100;
       this.height = 100;
       this.content = "Hello, World!";
-      this.score = 0;
       this.clusterId = 0;
       this.coordinate = {};
       this.word = [];

@@ -1,17 +1,18 @@
 class @Layout
-  constructor: ()->
+  constructor: (@histories)->
     @aspect = 1.3
-    @clusterNum = 15
+    @clusterNum = if histories then histories.length else 0
     @squareSize = 0
     @rows = 0
     @cols = 0
 
-  createLayout: ()->
+  drawArticles: ()->
     w = window.innerWidth
     h = window.innerHeight
     @calcSquareSize(w, h)
-    data = @calcPosition(w)
-    @arrangeArticles(data)
+    @setPositionInfo2Histories(w)
+    console.log @histories
+    @arrangeArticles(@histories)
 
   calcSquareSize: (width, height)->
     rectangleWidth = width / @aspect
@@ -26,24 +27,22 @@ class @Layout
     @rows = rows
     @squareSize = squareSize
 
-  calcPosition:(w) ->
-    historyObjects = []
+  setPositionInfo2Histories:(w) ->
     articleWidth = @squareSize * (w / (@squareSize * @cols))
     articleHeight = @squareSize
     for c in [0...@cols]
       for r in [0...@rows]
-        obj = new HistoryObject()
-        obj.left = r * articleWidth
-        obj.top = c * articleHeight
-        obj.width = articleWidth
-        obj.height = articleHeight
-        historyObjects[(c * @rows) + r] = obj
-    return historyObjects
+        obj = @histories[(c * @rows) + r]
+        if obj
+          obj.left = r * articleWidth
+          obj.top = c * articleHeight
+          obj.width = articleWidth
+          obj.height = articleHeight
 
-  arrangeArticles: (data)->
+  arrangeArticles: (histories)->
     d3.select("#main-container")
       .selectAll("article")
-      .data(data)
+      .data(histories)
       .enter()
       .append("article")
       .attr("class", "article")
@@ -51,7 +50,7 @@ class @Layout
       .style("height", (d)-> return d.height + "px")
       .style("top", (d)-> return d.top + "px")
       .style("left", (d)-> return d.left + "px")
-      .text("object")
+      .text((d)-> return d.title)
 
 
 

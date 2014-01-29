@@ -5,7 +5,6 @@ class @HistoryObject
     @width = 100
     @height = 100
     @content = "Hello, World!"
-    @score = 0
     @clusterId = 0
     @coordinate = {}
     @word = []

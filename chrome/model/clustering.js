@@ -3,7 +3,7 @@
   this.Clustering = (function() {
     function Clustering(histories) {
       var clusterNum, i, _i;
-      this.searchWords = null;
+      this.searchWords = [];
       this.histories = this.createHistoryObject(histories);
       clusterNum = this.calcClusterNum();
       this.clusters = [];
@@ -12,22 +12,23 @@
       }
     }
 
-    Clustering.prototype.getClusteredHistories = function() {
-      var i, kmeans, obj, objs, _i, _len;
+    Clustering.prototype.clusteringHistories = function() {
+      var i, kmeans, obj, objs, _i, _len, _results;
       this.setWords2Histories();
       this.setKeys2Histories();
-      kmeans = new Kmeans(this.histories, 10);
+      kmeans = new Kmeans(this.histories, this.clusters.length);
       objs = kmeans.start();
+      _results = [];
       for (i = _i = 0, _len = objs.length; _i < _len; i = ++_i) {
         obj = objs[i];
-        this.clusters[obj.clusterId].push(i);
+        _results.push(this.clusters[obj.clusterId].push(i));
       }
-      return objs;
+      return _results;
     };
 
     Clustering.prototype.createHistoryObject = function(histories) {
       var history, historyObjs, i, k, obj, v, _i, _len;
-      histories = this.removeSearchHistory(histories);
+      histories = this.exceptHistories(histories);
       historyObjs = [];
       for (i = _i = 0, _len = histories.length; _i < _len; i = ++_i) {
         history = histories[i];
@@ -42,11 +43,9 @@
     };
 
     Clustering.prototype.getClusterHistories = function(clusterId) {
-      var histories, i, _i, _len, _ref;
+      var histories, i, _i, _ref;
       histories = [];
-      _ref = this.clusters[clusterId];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        i = _ref[_i];
+      for (i = _i = 0, _ref = this.clusters[clusterId].length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
         histories[i] = this.histories[i];
       }
       return histories;
@@ -93,34 +92,55 @@
       return Math.min(this.histories.length, 20);
     };
 
-    Clustering.prototype.removeSearchHistory = function(histories) {
-      var h, history, q, query, words, _i, _j, _len, _len1;
-      words = {};
+    Clustering.prototype.exceptHistories = function(histories) {
+      var h, history, _i, _len;
       h = [];
       for (_i = 0, _len = histories.length; _i < _len; _i++) {
         history = histories[_i];
-        if (history.url.indexOf("https://www.google.co.jp/search?") === -1) {
+        if (this.canSelect(history)) {
           h.push(history);
         }
-        q = history.url.match(/\?q=.*?\&/);
-        if (!q) {
-          continue;
-        }
-        try {
-          q = decodeURI(q[0]).replace(/\?q=(.*?)\&/, '$1');
-          q = q.split(/[\s,\+]+/);
-          for (_j = 0, _len1 = q.length; _j < _len1; _j++) {
-            query = q[_j];
-            if (!words[query]) {
-              words[query] = 1;
-            } else {
-              words[query] += 1;
-            }
-          }
-        } catch (_error) {}
       }
-      this.searchWords = words;
       return h;
+    };
+
+    Clustering.prototype.canSelect = function(history) {
+      var pageType, t, target, _i, _len;
+      if (history.url.indexOf("https://www.google.co.jp/search?") > -1) {
+        this.registSearchWord(history);
+        return false;
+      }
+      pageType = history.url.split("/").pop();
+      target = ["png", "jpg", "mp3"];
+      for (_i = 0, _len = target.length; _i < _len; _i++) {
+        t = target[_i];
+        if (pageType.indexOf(t) !== -1) {
+          return false;
+        }
+      }
+      return true;
+    };
+
+    Clustering.prototype.registSearchWord = function(history) {
+      var q, query, _i, _len, _results;
+      q = history.url.match(/\?q=.*?\&/);
+      if (!q) {
+        return;
+      }
+      try {
+        q = decodeURI(q[0]).replace(/\?q=(.*?)\&/, '$1');
+        q = q.split(/[\s,\+]+/);
+        _results = [];
+        for (_i = 0, _len = q.length; _i < _len; _i++) {
+          query = q[_i];
+          if (this.searchWords[query]) {
+            _results.push(this.searchWords[query]++);
+          } else {
+            _results.push(this.searchWords[query] = 1);
+          }
+        }
+        return _results;
+      } catch (_error) {}
     };
 
     Clustering.prototype.selectTopKeywords = function(n) {

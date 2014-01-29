@@ -4,6 +4,9 @@
     beforeEach(function() {
       return this.clustering = new Clustering(histories);
     });
+    it("constructor", function() {
+      return expect(this.clustering.histories.length).toEqual(68);
+    });
     it("historiesにTopワードを追加", function() {
       this.clustering.setWords2Histories();
       return expect(this.clustering.histories[0].words).toEqual(['Jasmine', ' ', 'Spec', ' ', 'Runner', ' ', 'v', '2', '.', '0', '.', '0']);
@@ -129,7 +132,7 @@
     });
     return it("getClusterHistories: クラスタのHistoryを配列にして返す", function() {
       var histories;
-      this.clustering.getClusteredHistories();
+      this.clustering.clusteringHistories();
       histories = this.clustering.getClusterHistories(0);
       return expect(histories[0].id).toEqual("15113");
     });

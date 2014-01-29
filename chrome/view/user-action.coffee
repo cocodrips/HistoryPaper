@@ -16,5 +16,5 @@ $ ->
     else
       console.log "We can't analyze your future."
 
-  lay = new Layout()
-  lay.createLayout()
+#  lay = new Layout()
+#  lay.createLayout()

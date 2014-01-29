@@ -1,6 +1,3 @@
-# import
-#
-#
 
 class @History
   changeDate: (date, searchWord = "")->
@@ -8,28 +5,32 @@ class @History
     end = Date.parse(date);
     jsonData = ""
 
+    histories = []
     chrome.history.search("text":searchWord, "startTime":start, "endTime":end, "maxResults":100,
       (array)=>
-        clustering = @clusteringHistories(array)
-        histories = @selectTopHistoryFromEachCluster(clustering)
-        console.log histories
+        histories = @clusteringHistories(array)
+        layout = new Layout(histories)
+        layout.drawArticles()
     )
 
   clusteringHistories: (array)->
-    clustering = new Clustering(array)
-    clusterdHistories = clustering.getClusteredHistories()
 
-    return clustering
+    clustering = new Clustering(array)
+    clustering.clusteringHistories()
+    @
+    return @selectTopHistoryFromEachCluster(clustering)
 
   selectTopHistoryFromEachCluster: (clustering)->
-    histories = []
+    selected = []
+    selectTopFromCluster = new SelectTopFromCluster()
     for cluster, i in clustering.clusters
-      histories[i] = @selectTopHistory(clustering.getClusterHistories(i))
-    return histories
+      histories = clustering.getClusterHistories(i)
+      selected[i] = selectTopFromCluster.getTopHistoryFromHistories(histories)
+    return selected
 
 
-  selectTopHistory: (clusterHistories)->
-    for k,v of clusterHistories
-      return v
+
+#  selectTopHistory: (clusterHistories)->
+
 
 

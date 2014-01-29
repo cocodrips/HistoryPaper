@@ -4,7 +4,7 @@
     function History() {}
 
     History.prototype.changeDate = function(date, searchWord) {
-      var end, jsonData, start,
+      var end, histories, jsonData, start,
         _this = this;
       if (searchWord == null) {
         searchWord = "";
@@ -12,43 +12,39 @@
       start = Date.parse(date) - 86400000;
       end = Date.parse(date);
       jsonData = "";
+      histories = [];
       return chrome.history.search({
         "text": searchWord,
         "startTime": start,
         "endTime": end,
         "maxResults": 100
       }, function(array) {
-        var clustering, histories;
-        clustering = _this.clusteringHistories(array);
-        histories = _this.selectTopHistoryFromEachCluster(clustering);
-        return console.log(histories);
+        var layout;
+        histories = _this.clusteringHistories(array);
+        layout = new Layout(histories);
+        return layout.drawArticles();
       });
     };
 
     History.prototype.clusteringHistories = function(array) {
-      var clusterdHistories, clustering;
+      var clustering;
       clustering = new Clustering(array);
-      clusterdHistories = clustering.getClusteredHistories();
-      return clustering;
+      clustering.clusteringHistories();
+      this;
+      return this.selectTopHistoryFromEachCluster(clustering);
     };
 
     History.prototype.selectTopHistoryFromEachCluster = function(clustering) {
-      var cluster, histories, i, _i, _len, _ref;
-      histories = [];
+      var cluster, histories, i, selectTopFromCluster, selected, _i, _len, _ref;
+      selected = [];
+      selectTopFromCluster = new SelectTopFromCluster();
       _ref = clustering.clusters;
       for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
         cluster = _ref[i];
-        histories[i] = this.selectTopHistory(clustering.getClusterHistories(i));
+        histories = clustering.getClusterHistories(i);
+        selected[i] = selectTopFromCluster.getTopHistoryFromHistories(histories);
       }
-      return histories;
-    };
-
-    History.prototype.selectTopHistory = function(clusterHistories) {
-      var k, v;
-      for (k in clusterHistories) {
-        v = clusterHistories[k];
-        return v;
-      }
+      return selected;
     };
 
     return History;
