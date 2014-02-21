@@ -12,7 +12,7 @@
 
     Layout.prototype.drawArticles = function() {
       var h, w;
-      w = window.innerWidth;
+      w = window.innerWidth * .8;
       h = window.innerHeight;
       this.calcSquareSize(w, h);
       this.setPositionInfo2Histories(w);
@@ -71,7 +71,7 @@
         return d.top + "px";
       }).style("left", function(d) {
         return d.left + "px";
-      }).text(function(d) {
+      }).append("h2").text(function(d) {
         return d.title;
       });
     };

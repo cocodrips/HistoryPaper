@@ -2,10 +2,52 @@ $red: #f00;
 $background-color: whitesmoke;
 $sidebar-width: 300px;
 $dark-gray: #666666;
+$text: #222222;
+
+
+#main-container{
+  position: absolute;
+  width: 100%;
+}
+
+.article-inner{
+  display: block;
+  position: relative;
+  //letter-spacing: .05em;
+  padding: 10px;
+  h5{
+    font-size: 50%;
+    font-weight: normal;
+    display: inline-block;
+    margin: 2px 0;
+    letter-spacing: 1px;
+    width: 90%;
+    a{
+      color: $dark-gray;
+      text-decoration: none;
+    }
+  }
+  img{
+    max-height:50%;
+    max-width: 100%;
+    border-radius:5px;
+  }
+  .news-img{
+    max-height: 40%;
+    max-width: 100%;
+    margin: 5px;
+    float: left;
+    display: inline-block;
+  }
+  .news-text{
+    font-size : 70%;
+  }
+}
 
 body{
-  background-color: white;
-  font-family: 'Open Sans', 'Century Gothic',Arial, Helvetica, sans-serif;
+  //background-color: white;
+  //font-family: 'Exo 2', sans-serif;
+  //margin-top: 80px; //header
 
   .question{
     font-size: 12px;
@@ -26,10 +68,7 @@ body{
     height: 100%;
   }
 
-  #main-container{
-    position: absolute;
-    width: 100%;
-  }
+
 
   #key-cloud{
     width: 100%;
@@ -44,45 +83,14 @@ body{
   }
 
   .article{
-    background-color: $background-color;
     position: absolute;
-    border: 5px solid white;
-    margin: -5px;
+    margin: 5px;
+    border-bottom: 1px dotted $text;
+    //box-sizing: border-box;
+
   }
 
-  .article-inner{
-    display: block;
-    position: relative;
-    //letter-spacing: .05em;
-    padding: 10px;
-    h5{
-      font-size: 50%;
-      font-weight: normal;
-      display: inline-block;
-      margin: 2px 0;
-      letter-spacing: 1px;
-      width: 90%;
-      a{
-        color: $dark-gray;
-        text-decoration: none;
-      }
-    }
-    img{
-      max-height:50%;
-      max-width: 100%;
-      border-radius:5px;
-    }
-    .news-img{
-      max-height: 40%;
-      max-width: 100%;
-      margin: 5px;
-      float: left;
-      display: inline-block;
-    }
-    .news-text{
-      font-size : 70%;
-    }
-  }
+
 
   h2{
     letter-spacing: .05em;
@@ -94,10 +102,6 @@ body{
       text-decoration: none;
     }
 
-  }
-
-  #treemap{
-    display: inline-block;
   }
 
   #sidebar{

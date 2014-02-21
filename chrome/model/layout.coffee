@@ -7,7 +7,7 @@ class @Layout
     @cols = 0
 
   drawArticles: ()->
-    w = window.innerWidth
+    w = window.innerWidth * .8
     h = window.innerHeight
     @calcSquareSize(w, h)
     @setPositionInfo2Histories(w)
@@ -50,6 +50,7 @@ class @Layout
       .style("height", (d)-> return d.height + "px")
       .style("top", (d)-> return d.top + "px")
       .style("left", (d)-> return d.left + "px")
+      .append("h2")
       .text((d)-> return d.title)
 
 
