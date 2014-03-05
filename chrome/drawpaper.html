@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="css/pure-min.css"/>
   <link rel="stylesheet" href="css/all.css"/>
   <link rel="stylesheet" href="css/common.css"/>
+  <link rel="stylesheet" href="css/article.css"/>
   <link rel="stylesheet" href="css/mini-parts.css"/>
 
 </head>
@@ -23,7 +24,10 @@
 <nav>
   <div class="inner">
     <div class="logo">HistoryPaper</div>
-    <div class="nav-date">2014/02/21</div>
+    <div class="nav-date">
+      <input id="date" type="date"/>
+    </div>
+
   </div>
 </nav>
 
@@ -45,10 +49,14 @@
 <footer></footer>
 
 <!--libraries-->
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>-->
 <script src="libs/zepto.min.js"></script>
 <script src="libs/underscore-min.js"></script>
+<script src="libs/jquery.xdomainajax.js"></script>
+
 <script src="libs/tiny_segmenter.js"></script>
 <script src="libs/stopwords.js"></script>
+<script src="model/utils.js"></script>
 <script src="script/search-word-list.js"></script>
 <script src="script/js-library.js"></script>
 <script src="script/getJson.js"></script>

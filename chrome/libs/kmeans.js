@@ -32,11 +32,6 @@
     }
 
     Kmeans.prototype.start = function() {
-      var centroids, _, _i;
-      for (_ = _i = 0; _i < 10; _ = ++_i) {
-        centroids = this.calcCentroids();
-        this.updateClusterId(centroids);
-      }
       return this.objs;
     };
 

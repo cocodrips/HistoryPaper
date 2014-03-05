@@ -14,10 +14,8 @@ class @History
     )
 
   clusteringHistories: (array)->
-
     clustering = new Clustering(array)
     clustering.clusteringHistories()
-    @
     return @selectTopHistoryFromEachCluster(clustering)
 
   selectTopHistoryFromEachCluster: (clustering)->
@@ -25,6 +23,8 @@ class @History
     selectTopFromCluster = new SelectTopFromCluster()
     for cluster, i in clustering.clusters
       histories = clustering.getClusterHistories(i)
+      console.log histories
+
       selected[i] = selectTopFromCluster.getTopHistoryFromHistories(histories)
     return selected
 

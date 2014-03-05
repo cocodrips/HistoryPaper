@@ -3,7 +3,7 @@
   this.Layout = (function() {
     function Layout(histories) {
       this.histories = histories;
-      this.aspect = 1.3;
+      this.aspect = 1.4;
       this.clusterNum = histories ? histories.length : 0;
       this.squareSize = 0;
       this.rows = 0;
@@ -12,11 +12,11 @@
 
     Layout.prototype.drawArticles = function() {
       var h, w;
-      w = window.innerWidth * .8;
-      h = window.innerHeight;
+      w = window.innerWidth - (40 + 300);
+      h = window.innerHeight - 100;
+      $("#container").css("height", h + "px");
       this.calcSquareSize(w, h);
       this.setPositionInfo2Histories(w);
-      console.log(this.histories);
       return this.arrangeArticles(this.histories);
     };
 
@@ -37,33 +37,26 @@
     };
 
     Layout.prototype.setPositionInfo2Histories = function(w) {
-      var articleHeight, articleWidth, c, obj, r, _i, _ref, _results;
-      articleWidth = this.squareSize * (w / (this.squareSize * this.cols));
+      var articleHeight, articleWidth, c, obj, r, _i, _j, _ref, _ref1;
       articleHeight = this.squareSize;
-      _results = [];
+      articleWidth = this.squareSize * this.aspect;
+      console.log(this.squareSize);
       for (c = _i = 0, _ref = this.cols; 0 <= _ref ? _i < _ref : _i > _ref; c = 0 <= _ref ? ++_i : --_i) {
-        _results.push((function() {
-          var _j, _ref1, _results1;
-          _results1 = [];
-          for (r = _j = 0, _ref1 = this.rows; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; r = 0 <= _ref1 ? ++_j : --_j) {
-            obj = this.histories[(c * this.rows) + r];
-            if (obj) {
-              obj.left = r * articleWidth;
-              obj.top = c * articleHeight;
-              obj.width = articleWidth;
-              _results1.push(obj.height = articleHeight);
-            } else {
-              _results1.push(void 0);
-            }
+        for (r = _j = 0, _ref1 = this.rows; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; r = 0 <= _ref1 ? ++_j : --_j) {
+          obj = this.histories[(c * this.rows) + r];
+          if (obj) {
+            obj.left = r * articleWidth;
+            obj.top = c * articleHeight;
+            obj.width = articleWidth;
+            obj.height = articleHeight;
           }
-          return _results1;
-        }).call(this));
+        }
       }
-      return _results;
+      return this.histories[1];
     };
 
     Layout.prototype.arrangeArticles = function(histories) {
-      return d3.select("#main-container").selectAll("article").data(histories).enter().append("article").attr("class", "article").style("width", function(d) {
+      d3.select("#main-container").selectAll("article").data(histories).enter().append("article").attr("class", "article").style("width", function(d) {
         return d.width + "px";
       }).style("height", function(d) {
         return d.height + "px";
@@ -71,8 +64,11 @@
         return d.top + "px";
       }).style("left", function(d) {
         return d.left + "px";
-      }).append("h2").text(function(d) {
+      }).append("div").attr("class", "article-inner").append("h2").text(function(d) {
         return d.title;
+      });
+      return d3.selectAll(".article-inner").append("div").attr("class", "url").text(function(d) {
+        return d.url;
       });
     };
 

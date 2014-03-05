@@ -17,9 +17,9 @@ class @Kmeans
       @objs[i] = obj
 
   start: ()->
-    for _ in [0...10]
-      centroids = @calcCentroids()
-      @updateClusterId(centroids)
+  #    for _ in [0...10]
+#      centroids = @calcCentroids()
+#      @updateClusterId(centroids)
     return @objs
 
   calcCentroids: ()->

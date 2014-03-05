@@ -7,7 +7,6 @@ describe "Clustering", ->
 
 
   it "historiesにTopワードを追加", () ->
-
     @clustering.setWords2Histories()
     expect(@clustering.histories[0].words).toEqual([ 'Jasmine', ' ', 'Spec', ' ', 'Runner', ' ', 'v', '2', '.', '0', '.', '0' ]);
 
@@ -23,11 +22,11 @@ describe "Clustering", ->
 
   it "isKeyword: キーワードであるかどうかを判定する", () ->
     target = "楽しい"
-    expect(@clustering.isKeyword(target)).toBeTruthy()
+    expect(Utils.isKeyword(target)).toBeTruthy()
     target = "あ"
-    expect(@clustering.isKeyword(target)).toBeFalsy()
+    expect(Utils.isKeyword(target)).toBeFalsy()
     target = "今回"
-    expect(@clustering.isKeyword(target)).toBeFalsy()
+    expect(Utils.isKeyword(target)).toBeFalsy()
 
   it "getClusterHistories: クラスタのHistoryを配列にして返す", () ->
     @clustering.clusteringHistories()

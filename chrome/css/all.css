@@ -49,18 +49,6 @@ body #key-cloud {
   body #key-cloud pre {
     display: inline-block;
     margin: 1px; }
-body .article {
-  position: absolute;
-  margin: 5px;
-  border-bottom: 1px dotted #222222; }
-body h2 {
-  letter-spacing: .05em;
-  margin: 5px 0px;
-  font-size: 110%;
-  font-weight: bold; }
-  body h2 a {
-    color: #000000;
-    text-decoration: none; }
 body #sidebar {
   float: right;
   width: 300px;

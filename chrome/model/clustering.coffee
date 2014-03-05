@@ -1,7 +1,7 @@
 class @Clustering
   constructor:(histories)->
     @searchWords=[]
-    @histories = @createHistoryObject(histories)
+    @histories = new CreateHistoryObject(histories)
     clusterNum = @calcClusterNum()
     @clusters = []
     for i in [0...clusterNum]
@@ -15,22 +15,11 @@ class @Clustering
     for obj, i in objs
       @clusters[obj.clusterId].push(i)
 
-  # bad parts
-  createHistoryObject: (histories)->
-    histories = @exceptHistories(histories)
-    historyObjs = []
-    for history, i in histories
-      obj = new HistoryObject()
-      for k, v of history
-        obj[k] = v
-      historyObjs[i] = obj
-    return historyObjs
-
   #TODO: naming
   getClusterHistories: (clusterId)->
     histories = []
     for i in [0...@clusters[clusterId].length]
-      histories[i] = @histories[i]
+      histories[i] = @histories[@clusters[clusterId][i]]
     return histories
 
   # set keyword as coordinate
@@ -55,26 +44,9 @@ class @Clustering
       history.words = segmenter.segment(history.title)
 
   calcClusterNum: ()->
-    return Math.min(@histories.length, 20)
+    return 9
+#    return Math.min(@histories.length, 20)
 
-  exceptHistories: (histories)->
-    h = []
-    for history in histories
-      if @canSelect(history)
-        h.push(history)
-    return h
-
-  canSelect: (history)->
-    if history.url.indexOf("https://www.google.co.jp/search?") > -1
-      @registSearchWord(history)
-      return false
-
-    pageType = history.url.split("/").pop()
-    target = ["png", "jpg", "mp3"]
-    for t in target
-      if pageType.indexOf(t) != -1
-        return false
-    return true
 
   registSearchWord: (history)->
     q = history.url.match /\?q=.*?\&/
@@ -86,7 +58,6 @@ class @Clustering
       for query in q
         if @searchWords[query] then @searchWords[query]++ else  @searchWords[query]=1
 
-
   selectTopKeywords: (n)->
     data = []
     for history in @histories
@@ -94,7 +65,7 @@ class @Clustering
         word = $.trim(word)
         if data[word] then data[word]++ else data[word] = 1
 
-    keywords = @sortByValue(data, true)
+    keywords = Utils.sortByValue(data, true)
     topKeywords = []
     i = 0
     for keyword in keywords
@@ -107,33 +78,57 @@ class @Clustering
   extractKeyword:(history) ->
     keywords = []
     for word in history.words
-      if @isKeyword(word) then keywords.push(word)
+      if Utils.isKeyword(word) then keywords.push(word)
 
-  isKeyword: (word) ->
-    if word.length == 1
-      return false
-    if stopwords[word]
-      return false
+
+
+
+class CreateHistoryObject
+  constructor:(histories)->
+    return @createHistoryObject(histories)
+
+  createHistoryObject: (histories)->
+    histories = @exceptHistories(histories)
+    console.log histories
+    urls = []
+    historyObjs = []
+    for history in histories
+#      if _.contains(urls, history.url)
+#        console.log 'already contain'
+#        continue
+#      urls.push(history.url)
+
+      obj = new HistoryObject()
+      for k, v of history
+        obj[k] = v
+      historyObjs.push(obj)
+    return historyObjs
+
+  exceptHistories: (histories)->
+    h = []
+    for history in histories
+      if @canSelect(history)
+        h.push(history)
+    return h
+
+  canSelect: (history)->
+    conditions = {
+      isNotSearch: (history)->
+        if history.url.indexOf("https://www.google.co.jp/search?") > -1
+          return false
+        return true
+
+      isNotBinary: (history)->
+        pageType = history.url.split("/").pop()
+        target = ["png", "jpg", "mp3"]
+        for t in target
+          if pageType.indexOf(t) != -1
+            return false
+        return true
+    }
+    for k, v of conditions
+      if !v(history)
+        return false
     return true
-
-  sortByValue:(data, reverse)->
-    z = []
-    for k,v of data
-      z.push([v, k])
-
-    z.sort((a, b)->
-      if a[0] < b[0]
-        return -1
-      if a[0] > b[0]
-        return 1
-      return 0
-    )
-    if reverse
-      z.reverse()
-    l = []
-    l.push(e[1]) for e in z
-    return l
-
-
 
 

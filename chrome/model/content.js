@@ -3,9 +3,18 @@
   var ExtractContents, Node;
 
   window.onload = function() {
-    var ex;
-    ex = new ExtractContents();
-    return ex.extractContents();
+    var plain_text;
+    plain_text = document.documentElement.innerText;
+    console.log(plain_text);
+    chrome.extension.sendRequest({
+      storage: location.href,
+      value: plain_text
+    });
+    return chrome.extension.sendRequest({
+      storage: location.href
+    }, function(response) {
+      return console.log('foo => ' + response);
+    });
   };
 
   Node = (function() {

@@ -15,6 +15,9 @@
             "js": ["model/content.js"]
         }
     ],
+    "background": {
+        "script":["view/background.js"]
+    },
     "permissions": [
         "history",
         "storage",

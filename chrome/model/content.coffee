@@ -1,7 +1,14 @@
 window.onload = ()->
-#  plain_text = document.documentElement.innerText
-  ex = new ExtractContents()
-  ex.extractContents()
+  plain_text = document.documentElement.innerText
+  console.log plain_text
+
+#  ex = new ExtractContents()
+#  ex.extractContents()
+  chrome.extension.sendRequest({storage: location.href, value: plain_text})
+  chrome.extension.sendRequest({storage: location.href}, (response) ->
+    console.log 'foo => ' + response
+  )
+
 #  if !hasContent(location.href)
 #    setContent(location.href, plain_text)
 

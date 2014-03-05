@@ -12,7 +12,13 @@
     };
 
     HistoryController.prototype.changeDate = function(date) {
+      this.clearView();
       return this.history.changeDate(date);
+    };
+
+    HistoryController.prototype.clearView = function() {
+      console.log("clear");
+      return $("#main-container").innerHTML = '';
     };
 
     return HistoryController;

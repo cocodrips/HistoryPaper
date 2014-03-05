@@ -1,17 +1,18 @@
 class @Layout
   constructor: (@histories)->
-    @aspect = 1.3
+    @aspect = 1.4
     @clusterNum = if histories then histories.length else 0
     @squareSize = 0
     @rows = 0
     @cols = 0
 
   drawArticles: ()->
-    w = window.innerWidth * .8
-    h = window.innerHeight
+    w = window.innerWidth - (40 + 300)
+    h = window.innerHeight - 100
+    $("#container").css("height", h + "px")
+
     @calcSquareSize(w, h)
     @setPositionInfo2Histories(w)
-    console.log @histories
     @arrangeArticles(@histories)
 
   calcSquareSize: (width, height)->
@@ -28,8 +29,10 @@ class @Layout
     @squareSize = squareSize
 
   setPositionInfo2Histories:(w) ->
-    articleWidth = @squareSize * (w / (@squareSize * @cols))
     articleHeight = @squareSize
+    articleWidth = @squareSize * @aspect
+    console.log @squareSize
+    #    articleWidth = @squareSize * (w / (@squareSize * @cols))
     for c in [0...@cols]
       for r in [0...@rows]
         obj = @histories[(c * @rows) + r]
@@ -38,6 +41,7 @@ class @Layout
           obj.top = c * articleHeight
           obj.width = articleWidth
           obj.height = articleHeight
+    @histories[1]
 
   arrangeArticles: (histories)->
     d3.select("#main-container")
@@ -50,8 +54,17 @@ class @Layout
       .style("height", (d)-> return d.height + "px")
       .style("top", (d)-> return d.top + "px")
       .style("left", (d)-> return d.left + "px")
+      .append("div")
+      .attr("class", "article-inner")
       .append("h2")
       .text((d)-> return d.title)
+
+
+    d3.selectAll(".article-inner")
+      .append("div")
+      .attr("class", "url")
+      .text((d) -> return d.url)
+
 
 
 

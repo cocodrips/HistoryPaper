@@ -35,7 +35,7 @@
           return article.history;
         }
       }
-      return '';
+      return histories[0];
     };
 
     SelectTopFromCluster.prototype.calcScore = function(history) {

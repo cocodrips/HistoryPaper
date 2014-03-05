@@ -3,14 +3,12 @@
   $(function() {
     var controller, now;
     controller = new HistoryController();
-    console.log(controller);
     now = new Date();
-    controller.firstDate();
-    controller.changeDate(now);
+    controller.changeDate("2014-01-08");
     return $('#date').on('change', function() {
       var date;
       date = $('#date').val();
-      console.log(date);
+      console.log("change date", date);
       if (Date.parse(now) > Date.parse(date)) {
         return controller.changeDate(date);
       } else {

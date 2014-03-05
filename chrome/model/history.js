@@ -30,7 +30,6 @@
       var clustering;
       clustering = new Clustering(array);
       clustering.clusteringHistories();
-      this;
       return this.selectTopHistoryFromEachCluster(clustering);
     };
 
@@ -42,6 +41,7 @@
       for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
         cluster = _ref[i];
         histories = clustering.getClusterHistories(i);
+        console.log(histories);
         selected[i] = selectTopFromCluster.getTopHistoryFromHistories(histories);
       }
       return selected;

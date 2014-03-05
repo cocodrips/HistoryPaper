@@ -5,7 +5,6 @@ class @SelectTopFromCluster
 
   # Todo: Naming
   getTopHistoryFromHistories: (histories)->
-
     if histories.length < 1
       return ''
 
@@ -23,7 +22,8 @@ class @SelectTopFromCluster
       if domainType && !_.include(@pickedUpDomain, domainType)
         @pickedUpDomain.push(domainType)
         return article.history
-    return ''
+    return histories[0]
+#    return ''
 
   calcScore:(history)->
     return history.visitCount

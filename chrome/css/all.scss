@@ -82,27 +82,11 @@ body{
     }
   }
 
-  .article{
-    position: absolute;
-    margin: 5px;
-    border-bottom: 1px dotted $text;
-    //box-sizing: border-box;
-
-  }
 
 
 
-  h2{
-    letter-spacing: .05em;
-    margin: 5px 0px;
-    font-size: 110%;
-    font-weight: bold;
-    a{
-      color: #000000;
-      text-decoration: none;
-    }
 
-  }
+
 
   #sidebar{
     float:right;

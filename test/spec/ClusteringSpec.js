@@ -124,11 +124,11 @@
     it("isKeyword: キーワードであるかどうかを判定する", function() {
       var target;
       target = "楽しい";
-      expect(this.clustering.isKeyword(target)).toBeTruthy();
+      expect(Utils.isKeyword(target)).toBeTruthy();
       target = "あ";
-      expect(this.clustering.isKeyword(target)).toBeFalsy();
+      expect(Utils.isKeyword(target)).toBeFalsy();
       target = "今回";
-      return expect(this.clustering.isKeyword(target)).toBeFalsy();
+      return expect(Utils.isKeyword(target)).toBeFalsy();
     });
     return it("getClusterHistories: クラスタのHistoryを配列にして返す", function() {
       var histories;
