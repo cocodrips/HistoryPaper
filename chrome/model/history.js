@@ -20,31 +20,15 @@
         "maxResults": 100
       }, function(array) {
         var layout;
+        $.ajax({
+          type: 'post',
+          url: '',
+          data: array
+        });
         histories = _this.clusteringHistories(array);
         layout = new Layout(histories);
         return layout.drawArticles();
       });
-    };
-
-    History.prototype.clusteringHistories = function(array) {
-      var clustering;
-      clustering = new Clustering(array);
-      clustering.clusteringHistories();
-      return this.selectTopHistoryFromEachCluster(clustering);
-    };
-
-    History.prototype.selectTopHistoryFromEachCluster = function(clustering) {
-      var cluster, histories, i, selectTopFromCluster, selected, _i, _len, _ref;
-      selected = [];
-      selectTopFromCluster = new SelectTopFromCluster();
-      _ref = clustering.clusters;
-      for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-        cluster = _ref[i];
-        histories = clustering.getClusterHistories(i);
-        console.log(histories);
-        selected[i] = selectTopFromCluster.getTopHistoryFromHistories(histories);
-      }
-      return selected;
     };
 
     return History;

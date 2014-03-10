@@ -12,7 +12,13 @@
     "content_scripts": [
         {
             "matches": ["http://*/*", "https://*/*"],
-            "js": ["model/content.js"]
+            "js": [
+                "libs/tiny_segmenter.js",
+                "libs/stopwords.js",
+                "model/utils.js",
+                "model/content-object.js",
+                "model/content.js"
+                ]
         }
     ],
     "background": {
