@@ -6,17 +6,23 @@ class @History
     jsonData = ""
 
     histories = []
-    chrome.history.search("text":searchWord, "startTime":start, "endTime":end, "maxResults":100,
+    chrome.history.search("text":searchWord, "startTime":start, "endTime":end, "maxResults":1000,
       (array)=>
         $.ajax (
           type: 'post',
-          url: '',
-          data: array
-
+          url: 'http://127.0.0.1:8000/historypaper/receive/historyobj/',
+          data: array,
+#          dataType: 'json',
+          success: (data) ->
+            console.log data
+          ,
+          error: (xhr, type) ->
+            console.log 'AjaxError :', xhr, type
         )
-        histories = @clusteringHistories(array)
-        layout = new Layout(histories)
-        layout.drawArticles()
+#        console.log JSON.stringify(array)
+#        histories = @clusteringHistories(array)
+#        layout = new Layout(histories)
+#        layout.drawArticles()
     )
 
 

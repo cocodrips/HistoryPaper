@@ -17,17 +17,19 @@
         "text": searchWord,
         "startTime": start,
         "endTime": end,
-        "maxResults": 100
+        "maxResults": 1000
       }, function(array) {
-        var layout;
-        $.ajax({
+        return $.ajax({
           type: 'post',
-          url: '',
-          data: array
+          url: 'http://127.0.0.1:8000/historypaper/receive/historyobj/',
+          data: array,
+          success: function(data) {
+            return console.log(data);
+          },
+          error: function(xhr, type) {
+            return console.log('AjaxError :', xhr, type);
+          }
         });
-        histories = _this.clusteringHistories(array);
-        layout = new Layout(histories);
-        return layout.drawArticles();
       });
     };
 

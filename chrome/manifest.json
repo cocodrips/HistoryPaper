@@ -13,16 +13,12 @@
         {
             "matches": ["http://*/*", "https://*/*"],
             "js": [
-                "libs/tiny_segmenter.js",
-                "libs/stopwords.js",
-                "model/utils.js",
-                "model/content-object.js",
                 "model/content.js"
                 ]
         }
     ],
     "background": {
-        "script":["view/background.js"]
+        "page": "background.html"
     },
     "permissions": [
         "history",
