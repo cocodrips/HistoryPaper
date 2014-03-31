@@ -17,7 +17,7 @@ class @History
             console.log data
           ,
           error: (xhr, type) ->
-            console.log 'AjaxError :', xhr, type
+            console.log 'AjaxError:', xhr, type
         )
 #        console.log JSON.stringify(array)
 #        histories = @clusteringHistories(array)

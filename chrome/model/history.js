@@ -27,7 +27,7 @@
             return console.log(data);
           },
           error: function(xhr, type) {
-            return console.log('AjaxError :', xhr, type);
+            return console.log('AjaxError:', xhr, type);
           }
         });
       });
