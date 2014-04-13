@@ -27,6 +27,7 @@
         "http://*/*",
         "https://*/*",
         "http://fonts.googleapis.com/*",
-        "http://cocodrips.hateblo.jp/*"
+        "http://cocodrips.hateblo.jp/*",
+        "http://127.0.0.1:8000/historypaper/*"
     ]
 }

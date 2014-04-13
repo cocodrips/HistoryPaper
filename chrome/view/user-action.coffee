@@ -4,7 +4,8 @@
 $ ->
   controller = new HistoryController()
   now = new Date()
-  controller.changeDate("2014-01-08")
+#  controller.changeDate("2014-01-08")
+  controller.firstDate()
 
   $('#date').on 'change', ->
     date = $('#date').val()

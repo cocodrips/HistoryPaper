@@ -19,10 +19,22 @@
         "endTime": end,
         "maxResults": 1000
       }, function(array) {
+        var a, contents, _i, _len;
+        console.log(array.length);
+        contents = null;
+        for (_i = 0, _len = array.length; _i < _len; _i++) {
+          a = array[_i];
+          chrome.storage.local.get(a['url'], function(items) {
+            return console.log(items);
+          });
+        }
         return $.ajax({
           type: 'post',
           url: 'http://127.0.0.1:8000/historypaper/receive/historyobj/',
-          data: array,
+          data: {
+            "length": String(array.length),
+            "data": array
+          },
           success: function(data) {
             return console.log(data);
           },

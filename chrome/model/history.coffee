@@ -6,12 +6,21 @@ class @History
     jsonData = ""
 
     histories = []
-    chrome.history.search("text":searchWord, "startTime":start, "endTime":end, "maxResults":1000,
+    chrome.history.search("text":searchWord, "startTime":start, "endTime":end,"maxResults":1000,
       (array)=>
+        console.log array.length
+
+        contents = null
+
+        for a in array
+          chrome.storage.local.get a['url'], (items)->
+            console.log items
+#            a['content'] = contents[a['url']]
+
         $.ajax (
           type: 'post',
           url: 'http://127.0.0.1:8000/historypaper/receive/historyobj/',
-          data: array,
+          data: {"length":String(array.length), "data": array},
 #          dataType: 'json',
           success: (data) ->
             console.log data
@@ -24,6 +33,4 @@ class @History
 #        layout = new Layout(histories)
 #        layout.drawArticles()
     )
-
-
 

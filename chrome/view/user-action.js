@@ -4,7 +4,7 @@
     var controller, now;
     controller = new HistoryController();
     now = new Date();
-    controller.changeDate("2014-01-08");
+    controller.firstDate();
     return $('#date').on('change', function() {
       var date;
       date = $('#date').val();

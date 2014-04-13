@@ -3,11 +3,8 @@
   var registPlainText;
 
   window.onload = function() {
-    var plain_text, re;
-    re = /^https/i;
-    if (location.href.match(re)) {
-      plain_text = document.documentElement.innerText;
-    }
+    var plain_text;
+    plain_text = document.documentElement.innerText;
     return registPlainText(plain_text);
   };
 

@@ -6,7 +6,7 @@
       items = {};
       items[request['storage']] = request['value'];
       return chrome.storage.local.set(items, function() {
-        return console.log("registed");
+        return console.log("registed", items);
       });
     }
   });

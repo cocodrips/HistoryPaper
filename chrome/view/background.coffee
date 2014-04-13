@@ -5,6 +5,5 @@ chrome.extension.onRequest.addListener (request, sender, sendResponse)->
     items = {}
     items[request['storage']] = request['value']
     chrome.storage.local.set items, () ->
-      console.log "registed"
-      #chrome.storage.local.get null, (items)->
-       # console.log "get", items
+      console.log "registed", items
+
