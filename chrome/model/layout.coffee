@@ -45,7 +45,7 @@ class @Layout
 
   arrangeArticles: (histories)->
     console.log histories
-    d3.select("#main-container")
+    articles = d3.select("#main-container")
       .selectAll("article")
       .data(histories)
       .enter()
@@ -57,20 +57,26 @@ class @Layout
       .style("left", (d)-> return d.rect.left + "px")
       .append("div")
       .attr("class", "article-inner")
-      .append("h2")
+    articles.append("h2")
       .text((d)-> return d.title)
 
 
-    d3.selectAll(".article-inner")
-      .append("div")
-      .attr("class", "url")
-      .text((d) -> return d.url)
 
 
-    d3.selectAll(".url")
-      .append("div")
+    articles.append("img")
+      .attr("src", (d) -> return d.imageurl)
+
+    articles.append("div")
+    .attr("class", "url")
+    .text((d) -> return d.url)
+
+
+
+    articles.append("div")
       .attr("class", "content")
       .text((d) -> return d.content)
+
+
 
 
 

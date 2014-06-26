@@ -53,8 +53,9 @@
     };
 
     Layout.prototype.arrangeArticles = function(histories) {
+      var articles;
       console.log(histories);
-      d3.select("#main-container").selectAll("article").data(histories).enter().append("article").attr("class", "article").style("width", function(d) {
+      articles = d3.select("#main-container").selectAll("article").data(histories).enter().append("article").attr("class", "article").style("width", function(d) {
         return d.rect.width + "px";
       }).style("height", function(d) {
         return d.rect.height + "px";
@@ -62,13 +63,17 @@
         return d.rect.top + "px";
       }).style("left", function(d) {
         return d.rect.left + "px";
-      }).append("div").attr("class", "article-inner").append("h2").text(function(d) {
+      }).append("div").attr("class", "article-inner");
+      articles.append("h2").text(function(d) {
         return d.title;
       });
-      d3.selectAll(".article-inner").append("div").attr("class", "url").text(function(d) {
+      articles.append("img").attr("src", function(d) {
+        return d.imageurl;
+      });
+      articles.append("div").attr("class", "url").text(function(d) {
         return d.url;
       });
-      return d3.selectAll(".url").append("div").attr("class", "content").text(function(d) {
+      return articles.append("div").attr("class", "content").text(function(d) {
         return d.content;
       });
     };
