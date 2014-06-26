@@ -6,7 +6,7 @@ class @HistoryObject
 
     @imageurl = ""
     @imageaspect = 0
-    @priority
+    @priority = 10
 
-class Rect
-  contructor: (@left, @top, @width, @height)->
+class @Rect
+  constructor: (@left, @top, @width, @height)->

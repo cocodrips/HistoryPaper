@@ -11,8 +11,8 @@ class @Layout
     h = window.innerHeight - 100
     $("#container").css("height", h + "px")
 
-    @calcSquareSize(w, h)
-    @setPositionInfo2Histories(w)
+#    @calcSquareSize(w, h)
+#    @setPositionInfo2Histories(w)
     @arrangeArticles(@histories)
 
   calcSquareSize: (width, height)->
@@ -31,7 +31,7 @@ class @Layout
   setPositionInfo2Histories:(w) ->
     articleHeight = @squareSize
     articleWidth = @squareSize * @aspect
-    console.log @squareSize
+#    console.log @squareSize
     #    articleWidth = @squareSize * (w / (@squareSize * @cols))
     for c in [0...@cols]
       for r in [0...@rows]
@@ -44,16 +44,17 @@ class @Layout
     @histories[1]
 
   arrangeArticles: (histories)->
+    console.log histories
     d3.select("#main-container")
       .selectAll("article")
       .data(histories)
       .enter()
       .append("article")
       .attr("class", "article")
-      .style("width", (d)-> return d.width + "px")
-      .style("height", (d)-> return d.height + "px")
-      .style("top", (d)-> return d.top + "px")
-      .style("left", (d)-> return d.left + "px")
+      .style("width", (d)-> return d.rect.width + "px")
+      .style("height", (d)-> return d.rect.height + "px")
+      .style("top", (d)-> return d.rect.top + "px")
+      .style("left", (d)-> return d.rect.left + "px")
       .append("div")
       .attr("class", "article-inner")
       .append("h2")
@@ -66,11 +67,13 @@ class @Layout
       .text((d) -> return d.url)
 
 
+    d3.selectAll(".url")
+      .append("div")
+      .attr("class", "content")
+      .text((d) -> return d.content)
 
 
-apidata = [
-{"url":"1", "context":"sample sample1", "imageurl":"1", imageaspect}
-]
+
 
 
 
