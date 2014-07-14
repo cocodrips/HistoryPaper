@@ -23,16 +23,30 @@
         "endTime": end,
         "maxResults": 1000
       }, function(array) {
-        var a, contents, layout, _i, _len;
-        console.log(array.length);
-        contents = null;
+        var arr, d, layout, post_data, _i, _len;
+        post_data = [];
         for (_i = 0, _len = array.length; _i < _len; _i++) {
-          a = array[_i];
-          chrome.storage.local.get(a['url'], function(items) {
-            var b;
-            return b = 1;
-          });
+          arr = array[_i];
+          d = {
+            'title': arr['title'],
+            'content': "",
+            'url': arr['url']
+          };
+          post_data.push(d);
         }
+        searchWordList(array);
+        $.ajax({
+          type: 'post',
+          url: 'http://127.0.0.1:8000/historypaper/receive/',
+          data: JSON.stringify(post_data),
+          dataType: 'text',
+          success: function(data) {
+            return console.log(data);
+          },
+          error: function(xhr, type) {
+            return console.log('AjaxError:', xhr, type);
+          }
+        });
         layout = new Layout(data);
         return layout.drawArticles();
       });

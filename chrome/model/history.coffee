@@ -9,27 +9,38 @@ class @History
     histories = []
     chrome.history.search("text":searchWord, "startTime":start, "endTime":end,"maxResults":1000,
       (array)=>
-        console.log array.length
+        post_data = []
+        for arr in array
+          d = {
+            'title': arr['title'],
+            'content': "",
+            'url': arr['url'],
+          }
+          post_data.push(d)
 
-        contents = null
+#        console.log post_data
+        searchWordList(array)
 
-        for a in array
-          chrome.storage.local.get a['url'], (items)->
-            b = 1
-#            console.log items
+
+#        for a in array
+#          chrome.storage.local.get a['url'], (items)->
+
+#            contens[a['url']] = items[a['url']]
 #            a['content'] = contents[a['url']]
+#        console.log contents
+#        print array
 
-#        $.ajax (
-#          type: 'post',
-#          url: 'http://127.0.0.1:8000/historypaper/receive/historyobj/',
-#          data: {"length":String(array.length), "data": array},
-##          dataType: 'json',
-#          success: (data) ->
-#            console.log data
-#          ,
-#          error: (xhr, type) ->
-#            console.log 'AjaxError:', xhr, type
-#        )
+        $.ajax (
+          type: 'post',
+          url: 'http://127.0.0.1:8000/historypaper/receive/',
+          data: JSON.stringify(post_data)
+          dataType: 'text',
+          success: (data) ->
+            console.log data
+          ,
+          error: (xhr, type) ->
+            console.log 'AjaxError:', xhr, type
+        )
 
 #        console.log JSON.stringify(array)
 #        histories = @clusteringHistories(array)
@@ -37,6 +48,7 @@ class @History
 #        layout.drawArticles()
         layout = new Layout(data)
         layout.drawArticles()
+
     )
 
 
