@@ -61,8 +61,6 @@ class @Layout
       .text((d)-> return d.title)
 
 
-
-
     articles.append("img")
       .attr("src", (d) -> return d.imageurl)
 
@@ -74,7 +72,9 @@ class @Layout
 
     articles.append("div")
       .attr("class", "content")
-      .text((d) -> return d.content)
+      .text((d) ->
+        return d.content
+      )
 
 
 
