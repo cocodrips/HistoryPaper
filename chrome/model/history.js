@@ -80,11 +80,9 @@
                 console.log(data);
                 histories = [];
                 i = 0;
-                for (_j = 0, _len1 = data.length; _j < _len1; _j++) {
-                  d = data[_j];
+                for (i = _j = 0, _len1 = data.length; _j < _len1; i = ++_j) {
+                  d = data[i];
                   histories[i] = new HistoryObject(d);
-                  histories[i].rect = new Rect(test_rect[i][0], test_rect[i][1], test_rect[i][2], test_rect[i][3]);
-                  i += 1;
                 }
                 layout = new Layout(histories);
                 return layout.drawArticles();

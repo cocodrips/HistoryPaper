@@ -35,7 +35,6 @@ class @History
                 post_data[key]['content'] = value
 
             post_data = (data for data in _.values(post_data) when data['content']!= '')
-#            console.log post_data
 
             $.ajax (
               type: 'post',
@@ -48,36 +47,14 @@ class @History
 
                 histories = []
                 i = 0
-                for d in data
+                for d, i in data
                   histories[i] = new HistoryObject(d)
-                  histories[i].rect = new Rect(test_rect[i][0], test_rect[i][1], test_rect[i][2], test_rect[i][3])
-                  i += 1
                 layout = new Layout(histories)
                 layout.drawArticles()
               ,
               error: (xhr, type) ->
                 console.log 'AjaxError:', xhr, type
             )) post_data
-
-
-
-
-#        for a in array
-#          chrome.storage.local.get a['url'], (post_data_arg) ->
-#            (items)->
-#              for key, value of items
-#                post_data_arg.push(value)
-#            (post_data)
-#          console.log post_data
-#
-#          if a['url'].match(/^https/)
-#            continue
-#          if a['url'].match(/^http/)
-
-#            post_data.push(d)
-#
-
-
     )
 
 

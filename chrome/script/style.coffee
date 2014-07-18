@@ -1,5 +1,5 @@
-@headerHeight = 38;
-@sidebarWidth = 300;
+@headerHeight = 38
+@sidebarWidth = 300
 
 $ ->
   mainHeight = $(window).height() - headerHeight

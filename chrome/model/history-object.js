@@ -4,7 +4,7 @@
     function HistoryObject(data) {
       this.title = data['title'];
       this.content = data['content'];
-      this.rect = Rect(data['rect']);
+      this.rect = new Rect(data['rect']);
       this.imageurl = "";
       this.imageaspect = 0;
       this.url = data['url'];

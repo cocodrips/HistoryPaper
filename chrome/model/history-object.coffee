@@ -2,7 +2,7 @@ class @HistoryObject
   constructor: (data)->
     @title = data['title']
     @content = data['content']
-    @rect = Rect(data['rect'])
+    @rect = new Rect(data['rect'])
     @imageurl = ""
     @imageaspect = 0
     @url = data['url']
