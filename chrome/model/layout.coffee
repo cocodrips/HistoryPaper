@@ -1,3 +1,4 @@
+
 class @Layout
   constructor: (@histories)->
     @aspect = 1.4
@@ -61,20 +62,25 @@ class @Layout
       .text((d)-> return d.title)
 
 
-    articles.append("img")
-      .attr("src", (d) -> return d.imageurl)
+
 
     articles.append("div")
     .attr("class", "url")
     .text((d) -> return d.url)
 
+    articles.append("img")
+    .attr("src", (d) -> return d.imageurl)
 
+
+    content_header_height = 150
 
     articles.append("div")
       .attr("class", "content")
       .text((d) ->
         return d.content
       )
+      .style("height", (d)->
+        return Math.max(d.rect.height - content_header_height, 0) + "px")
 
 
 

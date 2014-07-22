@@ -4,11 +4,9 @@
     (page)=>
       if page.url.indexOf("https://www.google.co.jp/") != -1
         q = page.url.match /#q=.*\&?/
-#        console.log '-------------search', q, page.url
         if q
           q = decodeURI q[0].replace /#q=(.*?)\&?/,'$1'
           q = q.split /[\s,\+]+/
-          console.log q
           q.forEach(
             (title)=>
               if !titles[title]

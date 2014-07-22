@@ -53,7 +53,7 @@
     };
 
     Layout.prototype.arrangeArticles = function(histories) {
-      var articles;
+      var articles, content_header_height;
       console.log(histories);
       articles = d3.select("#main-container").selectAll("article").data(histories).enter().append("article").attr("class", "article").style("width", function(d) {
         return d.rect.width + "px";
@@ -67,14 +67,17 @@
       articles.append("h2").text(function(d) {
         return d.title;
       });
-      articles.append("img").attr("src", function(d) {
-        return d.imageurl;
-      });
       articles.append("div").attr("class", "url").text(function(d) {
         return d.url;
       });
+      articles.append("img").attr("src", function(d) {
+        return d.imageurl;
+      });
+      content_header_height = 150;
       return articles.append("div").attr("class", "content").text(function(d) {
         return d.content;
+      }).style("height", function(d) {
+        return Math.max(d.rect.height - content_header_height, 0) + "px";
       });
     };
 

@@ -13,7 +13,6 @@
         if (q) {
           q = decodeURI(q[0].replace(/#q=(.*?)\&?/, '$1'));
           q = q.split(/[\s,\+]+/);
-          console.log(q);
           return q.forEach(function(title) {
             if (!titles[title]) {
               return titles[title] = 1;

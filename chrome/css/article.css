@@ -1,6 +1,6 @@
 .article {
   position: absolute;
-  padding: 20px;
+  padding: 10px;
   box-sizing: border-box; }
   .article .article-inner {
     width: 100%;
@@ -8,11 +8,13 @@
     border-bottom: 1px dotted #222222; }
     .article .article-inner h2 {
       overflow: hidden;
+      line-height: 1.5em;
+      height: 3.0em;
       text-overflow: ellipsis;
       letter-spacing: .05em;
       margin: 5px 0px;
-      font-size: 150%;
-      font-weight: bold; }
+      font-weight: bold;
+      font-size: 120%; }
       .article .article-inner h2 a {
         color: #000000;
         text-decoration: none; }
@@ -26,4 +28,5 @@
     .article .article-inner .url {
       color: #be4c41;
       overflow: hidden;
-      text-overflow: ellipsis; }
+      text-overflow: ellipsis;
+      white-space: nowrap; }

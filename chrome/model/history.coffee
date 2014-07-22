@@ -1,10 +1,10 @@
 data = []
 
 class @History
+
   changeDate: (date, searchWord = "")->
-    start = Date.parse(date) - 86400000;
+    start = Date.parse(date) - 86400000
     end = Date.parse(date);
-    jsonData = ""
     histories = []
 
     query = {
@@ -15,46 +15,68 @@ class @History
     }
     chrome.history.search(query, (array)=>
       searchWordList(array)
-      post_data = {}
-      urls = (a['url']for a in array)
-      for a in array
-        if a['url'].indexOf("https") == -1
-          post_data[a['url']] = {
-            'id': a['id']
-            'title': a['title'],
-            'content': '',
-            'url': a['url'],
-            'visitCount': a['visitCount']
-          }
 
-      chrome.storage.local.get urls,
-        ((post_data) ->
-          (items) ->
-            for key, value of items
-              if key.indexOf("https") == -1
-                post_data[key]['content'] = value
+      query = {
+        "text": searchWord,
+        "startTime": Date.parse(date) - 2592000000,
+        "endTime": Date.parse(date),
+        "maxResults": 20000
+      }
+      chrome.history.search(query,
+        ((array)=>
+          (array_month)=>
+            console.log 'd',array
+            console.log 'm:',array_month
+            month_histories = {}
+            for a in array_month
+              month_histories[a['url']] = a['visitCount']
 
-            post_data = (data for data in _.values(post_data) when data['content']!= '')
+            post_data = {}
+            urls = (a['url'] for a in array)
+            for a in array
+#              console.log a['visitCount'], '/', month_histories[a['url']]
+              if a['url'].indexOf("https") == -1
+                post_data[a['url']] = {
+                  'id': a['id']
+                  'title': a['title'],
+                  'content': '',
+                  'url': a['url'],
+                  'visitCount': a['visitCount']
+                }
 
-            $.ajax (
-              type: 'post',
-              url: 'http://127.0.0.1:8000/historypaper/receive/',
-              data: JSON.stringify(post_data)
-              dataType: 'json',
-              success: (response) ->
-                data = JSON.parse(response)
-                console.log data
+            chrome.storage.local.get urls,
+              ((post_data) ->
+                (items) ->
+                  for key, value of items
+                    if key.indexOf("https") == -1
+                      post_data[key]['content'] = value
 
-                histories = []
-                i = 0
-                for d, i in data
-                  histories[i] = new HistoryObject(d)
-                layout = new Layout(histories)
-                layout.drawArticles()
-              ,
-              error: (xhr, type) ->
-                console.log 'AjaxError:', xhr, type
-            )) post_data
+                  post_data = (data for data in _.values(post_data) when data['content'] != '')
+                  post_data = {'data': post_data, 'width': window.innerWidth - 370, 'height': window.innerHeight - 150}
+                  console.log "post:",post_data
+
+                  $.ajax (
+                    type: 'post',
+                    url: 'http://cocodrips.com/historypaper/receive/',
+                    data: JSON.stringify(post_data)
+                    dataType: 'json',
+                    success: (response) ->
+#                      data = JSON.parse(response)
+                      console.log response
+
+#                      histories = []
+#                      i = 0
+#                      for d, i in data
+#                        histories[i] = new HistoryObject(d)
+#                      layout = new Layout(histories)
+#                      layout.drawArticles()
+                    ,
+                    error: (xhr, type) ->
+                      console.log 'AjaxError:', xhr, type
+                  )) post_data
+        ) array
+      )
+
     )
 
 
@@ -70,20 +92,20 @@ test_data = [
    "Overview Examples Documentation Source Data-Driven Documents See more examples. D3.js is a JavaScript library for manipulating documents based on data. D3 helps you bring data to life using HTML,",
    "http://d3js.org/preview.png"],
   ["Google I/O 2014", "https://www.google.com/events/io", "Thanks for joining us today.
-    We’ll be back in the morning with more sessions from I/O Live.
-    Check the schedule for more information.
-    See I/O in action
-    We’re capturing the best moments throughout the conference and posting them right here.
-    Previous Next
-    Get the latest
-    Stay up to date as the conference unfolds on the +Google Developers page.
-     Got questions? Ask us on Google+ using #io14request
+        We’ll be back in the morning with more sessions from I/O Live.
+        Check the schedule for more information.
+        See I/O in action
+        We’re capturing the best moments throughout the conference and posting them right here.
+        Previous Next
+        Get the latest
+        Stay up to date as the conference unfolds on the +Google Developers page.
+         Got questions? Ask us on Google+ using #io14request
 
-    Google Developers
-    6 hours ago
-    Google Design, in IO Bytes Form
-    #io14   #design   #iobytes
-    With Google’s new Material Design language, we’ve produced  lots of great new design focused videos in this convenient playlist. ﻿"],
+        Google Developers
+        6 hours ago
+        Google Design, in IO Bytes Form
+        #io14   #design   #iobytes
+        With Google’s new Material Design language, we’ve produced  lots of great new design focused videos in this convenient playlist. ﻿"],
 
   ["AngularJS — Superheroic JavaScript MVW Framework", "https://angularjs.org/",
    "HTML enhanced for web apps!  View on GitHub Download (1.2.18 / 1.3.0-beta.13) Follow +AngularJS on Learn Angular ..."],
