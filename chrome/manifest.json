@@ -1,0 +1,33 @@
+{
+    "manifest_version": 2,
+
+    "name": "HistoryPaper / Dev",
+    "description": "historypaper",
+    "version": "1.0",
+
+    "browser_action": {
+        "default_icon": "images/icon.png",
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [
+        {
+            "matches": ["http://*/*"],
+            "js": [
+                "model/content.js"
+                ]
+        }
+    ],
+    "background": {
+        "page": "background.html"
+    },
+    "permissions": [
+        "history",
+        "storage",
+        "unlimitedStorage",
+        "http://*/*",
+        "https://*/*",
+        "http://fonts.googleapis.com/*",
+        "http://cocodrips.hateblo.jp/*",
+        "http://127.0.0.1:8000/historypaper/*"
+    ]
+}

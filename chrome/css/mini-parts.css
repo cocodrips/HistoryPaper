@@ -1,0 +1,43 @@
+body {
+  font-family: 'Georgia', 'Exo 2', sans-serif;
+  margin: 80px 30px 30px; }
+
+header {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 20px;
+  background-color: #353639; }
+
+footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 20px;
+  border-top: 5px solid #262629;
+  background-color: #353639; }
+
+nav {
+  position: absolute;
+  box-sizing: border-box;
+  border-top: 5px solid #860f12;
+  left: 0;
+  right: 0;
+  top: 20px;
+  height: 60px;
+  background-color: #af0d12; }
+  nav .inner {
+    margin: 10px 30px;
+    width: 80%;
+    color: #ebe8d3; }
+    nav .inner .logo {
+      display: inline-block;
+      font-size: 32px;
+      font-weight: bold;
+      margin-right: 30px; }
+    nav .inner .nav-date {
+      display: inline-block;
+      font-size: 24px;
+      font-style: italic; }

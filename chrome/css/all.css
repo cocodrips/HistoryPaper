@@ -1,0 +1,101 @@
+#main-container {
+  width: 100%;
+  top: 2px; }
+
+a {
+  text-decoration: none; }
+
+body {
+  font-family: 'Exo 2', sans-serif;
+  background-color: #eeeeee; }
+  body .question {
+    font-size: 12px;
+    font-weight: bold; }
+  body label {
+    font-size: 13px; }
+  body #enquete {
+    background-color: #d2a2a6;
+    border-radius: 5px;
+    padding: 5px; }
+  body #container {
+    width: 100%;
+    height: 100%; }
+  body #full-screen {
+    position: relative;
+    width: 100%; }
+  body #key-cloud {
+    width: 100%; }
+    body #key-cloud span {
+      font-family: 'Georgia', 'Exo 2', sans-serif;
+      letter-spacing: 1px;
+      margin-right: 10px; }
+    body #key-cloud pre {
+      font-family: 'Georgia', 'Exo 2', sans-serif;
+      display: inline-block;
+      margin: 1px; }
+  body #sidebar {
+    width: 300px;
+    padding: 5px;
+    padding-top: 5px;
+    background-color: #fff;
+    box-sizing: border-box; }
+  body #main_article {
+    position: absolute;
+    width: 100%;
+    height: 100px;
+    display: none; }
+  body .close_btn {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 50px;
+    height: 50px;
+    background-color: whitesmoke; }
+  body .clear {
+    clear: both; }
+  body .pure-g {
+    letter-spacing: .05em; }
+
+.icons {
+  position: absolute;
+  width: 100%;
+  min-height: 400px;
+  text-align: center;
+  color: #B2AEA9; }
+
+.loading {
+  display: block; }
+  .loading .loading-text {
+    -webkit-animation-duration: 1.5s;
+    -webkit-animation-name: loading-animation;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-direction: alternate;
+    -webkit-animation-timing-function: linear;
+    opacity: 0.8; }
+
+@-webkit-keyframes loading-animation {
+  0% {
+    color: #d2cdc7; }
+
+  100% {
+    color: #806b59; } }
+
+.ajax-fail {
+  display: block;
+  display: none; }
+
+.ghost-container {
+  color: #B2AEA9;
+  width: 100%; }
+
+.frame-table {
+  width: 100%;
+  font-family: 'Georgia', 'Exo 2', sans-serif;
+  font-size: 2em; }
+  .frame-table td:nth-child(1) {
+    vertical-align: middle; }
+  .frame-table td:nth-child(2) {
+    position: relative;
+    border: 15px solid transparent;
+    min-width: 300px;
+    vertical-align: top; }
