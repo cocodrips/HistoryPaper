@@ -3,7 +3,7 @@ class @HistoryObject
     @title = data['title']
     @content = data['content']
     @rect = new Rect(data['rect'])
-    @imageurl = ""
+    @imageurl = data['image_url']
     @imageaspect = 0
     @url = data['url']
     @priority = data['priority']

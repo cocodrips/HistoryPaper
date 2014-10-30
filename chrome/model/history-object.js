@@ -5,7 +5,7 @@
       this.title = data['title'];
       this.content = data['content'];
       this.rect = new Rect(data['rect']);
-      this.imageurl = "";
+      this.imageurl = data['image_url'];
       this.imageaspect = 0;
       this.url = data['url'];
       this.priority = data['priority'];

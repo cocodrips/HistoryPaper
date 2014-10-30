@@ -17,8 +17,8 @@
     };
 
     HistoryController.prototype.clearView = function() {
-      console.log("clear");
-      return $("#main-container").innerHTML = '';
+      $("#main-container").empty();
+      return $('.loading').css('display', 'block');
     };
 
     return HistoryController;

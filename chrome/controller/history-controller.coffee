@@ -11,7 +11,7 @@ class @HistoryController
     @history.changeDate(date)
 
   clearView: () ->
-    console.log "clear"
-    $("#main-container").innerHTML = ''
+    $("#main-container").empty()
+    $('.loading').css('display', 'block')
 
 
