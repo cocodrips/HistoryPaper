@@ -34,7 +34,7 @@ $url: #be4c41;
 
     .content{
       padding: 0px 0;
-      font-size: 140%;
+      font-size: 0.8em;
       height: 100%;
       text-align: justify;
       overflow: hidden;
@@ -48,6 +48,7 @@ $url: #be4c41;
       text-overflow: ellipsis;
       white-space: nowrap;
       text-decoration: none;
+      font-size: 0.7em;
     }
 
     .image_box{

@@ -70,9 +70,9 @@
         return d.title;
       }).style("font-size", function(d) {
         if (d.rect.width > 200) {
-          return "140%";
+          return "1.1em";
         } else {
-          return "120%";
+          return "1em";
         }
       }).style("max-height", function(d) {
         if (d.rect.height < this.title_only) {
@@ -128,7 +128,17 @@
     };
 
     Layout.prototype.loaded = function(is_success) {
-      return $('.loading').css('display', 'none');
+      if (is_success) {
+        return $('.loading').css('display', 'none');
+      } else {
+        $('.loading').css('display', 'none');
+        return $('.ajax-fail').css('display', 'block');
+      }
+    };
+
+    Layout.prototype.no_data = function() {
+      $('.loading').css('display', 'none');
+      return $('.ajax-fail').css('display', 'block');
     };
 
     return Layout;

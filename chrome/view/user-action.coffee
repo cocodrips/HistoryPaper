@@ -8,12 +8,17 @@ $ ->
   controller.firstDate()
 
   $('#date').on 'change', ->
+    change()
+
+  $('#cluster_num').on 'change', ->
+    change()
+
+  change = () ->
     date = $('#date').val()
-    console.log "change date", date
-    if Date.parse(now) > Date.parse(date)
-      controller.changeDate(date)
+    if date == ""
+      date = now
+    cluster_num = $('#cluster_num').val()
+    if Date.parse(now) >= Date.parse(date)
+      controller.changeDate(date, cluster_num)
     else
       console.log "We can't analyze your future."
-
-#  lay = new Layout()
-#  lay.createLayout()

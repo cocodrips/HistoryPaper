@@ -67,9 +67,9 @@ class @Layout
       .text((d)-> return d.title)
       .style("font-size", (d)->
         if d.rect.width > 200
-          return "140%"
+          return "1.1em"
         else
-          return "120%"
+          return "1em"
       )
       .style("max-height", (d)-> return if d.rect.height < @title_only then "1.5em" else "3.0em")
 
@@ -106,13 +106,22 @@ class @Layout
       .text((d) ->
         return d.content
       )
-#      .style("height", (d)->
-#        return Math.max(d.rect.height - content_header_height, 0) + "px")
 
 
     $('img').remove()
+
+
   loaded: (is_success) ->
+    if is_success
+      $('.loading').css('display', 'none')
+    else
+      $('.loading').css('display', 'none')
+      $('.ajax-fail').css('display', 'block')
+
+
+  no_data: () ->
     $('.loading').css('display', 'none')
+    $('.ajax-fail').css('display', 'block')
 
 
 

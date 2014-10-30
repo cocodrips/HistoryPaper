@@ -23,7 +23,7 @@
       font-size: 120%; }
     .article .article-inner .content {
       padding: 0px 0;
-      font-size: 140%;
+      font-size: 0.8em;
       height: 100%;
       text-align: justify;
       overflow: hidden;
@@ -33,7 +33,8 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      text-decoration: none; }
+      text-decoration: none;
+      font-size: 0.7em; }
     .article .article-inner .image_box {
       padding: 10px; }
       .article .article-inner .image_box img {

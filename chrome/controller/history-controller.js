@@ -8,16 +8,17 @@
     HistoryController.prototype.firstDate = function() {
       var now;
       now = new Date();
-      return this.changeDate(now);
+      return this.changeDate(now, -1);
     };
 
-    HistoryController.prototype.changeDate = function(date) {
+    HistoryController.prototype.changeDate = function(date, cluster_num) {
       this.clearView();
-      return this.history.changeDate(date);
+      return this.history.changeDate(date, cluster_num);
     };
 
     HistoryController.prototype.clearView = function() {
       $("#main-container").empty();
+      $('.icons').css('display', 'none');
       return $('.loading').css('display', 'block');
     };
 

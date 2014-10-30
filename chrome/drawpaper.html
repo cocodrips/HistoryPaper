@@ -13,6 +13,8 @@
   <link rel="stylesheet" href="css/common.css"/>
   <link rel="stylesheet" href="css/article.css"/>
   <link rel="stylesheet" href="css/mini-parts.css"/>
+  <link rel="stylesheet" href="css/icon.css"/>
+
 
 </head>
 <body>
@@ -26,6 +28,26 @@
     <div class="logo">HistoryPaper</div>
     <div class="nav-date">
       <input id="date" type="date"/>
+      <select id="cluster_num" class="pure-input-1-2">
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option selected>8</option>
+        <option>9</option>
+        <option>10</option>
+        <option>11</option>
+        <option>12</option>
+        <option>13</option>
+        <option>14</option>
+        <option>15</option>
+        <option>16</option>
+        <option>17</option>
+        <option>18</option>
+        <option>19</option>
+
+      </select>
     </div>
 
   </div>
@@ -33,32 +55,46 @@
 
 <div class="pure-g" id="container">
 
+<table class="frame-table">
+  <tr>
+    <td id="full-screen">
+      <section class="icons loading">
+        <!-- the component -->
+        <ul class="bokeh">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+        Now loading<span class="loading-text">...</span>
+      </section>
 
-<div id="full-screen">
-  <section class="loading">
-    <!-- the component -->
-    <ul class="bokeh">
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
-  </section>
-  <div id="main-container">
+      <section class="icons ajax-fail">
+        <div class="ghost-container">
+          <div class="ghost"></div>
+        </div>
+        <div>Sorry<br>
+          we failed to analyze ...</div>
 
-  </div>
-</div>
+      </section>
+      <div id="main-container">
+      </div>
 
-<aside id="sidebar">
-  <div class="article-inner">
-    <h2>検索キーワード</h2>
-    <div id="key-cloud"></div>
+
+    </td>
+    <td id="sidebar">
+      <div class="article-inner">
+      <h2>検索キーワード</h2>
+      <div id="key-cloud"></div>
 
 
 
-  </div>
-</aside>
+      </div>
 
+    </td>
+
+  </tr>
+</table>
 
 <footer></footer>
 
