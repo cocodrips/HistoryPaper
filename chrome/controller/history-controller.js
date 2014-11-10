@@ -8,12 +8,12 @@
     HistoryController.prototype.firstDate = function() {
       var now;
       now = new Date();
-      return this.changeDate(now, -1);
+      return this.changeDate(now, -1, 1);
     };
 
-    HistoryController.prototype.changeDate = function(date, cluster_num) {
+    HistoryController.prototype.changeDate = function(date, cluster_num, tech_type) {
       this.clearView();
-      return this.history.changeDate(date, cluster_num);
+      return this.history.changeDate(date, cluster_num, tech_type);
     };
 
     HistoryController.prototype.clearView = function() {

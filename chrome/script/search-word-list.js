@@ -43,7 +43,8 @@
       }
     }
     $('#key-cloud').text("");
-    return $('#key-cloud').append(keywordsHtml);
+    $('#key-cloud').append(keywordsHtml);
+    return $('#key-cloud').append("Keyword数:");
   };
 
 }).call(this);

@@ -7,7 +7,7 @@
   this.History = (function() {
     function History() {}
 
-    History.prototype.changeDate = function(date, cluster_num, searchWord) {
+    History.prototype.changeDate = function(date, cluster_num, tech_type, searchWord) {
       var end, layout, query, start,
         _this = this;
       if (searchWord == null) {
@@ -51,7 +51,7 @@
             };
           }
         }
-        return chrome.storage.local.get(urls, (function(post_data, keywords, date, cluster_num) {
+        return chrome.storage.local.get(urls, (function(post_data, keywords, date, cluster_num, tech_type) {
           return function(items) {
             var data, key, value;
             for (key in items) {
@@ -78,11 +78,13 @@
               'height': window.innerHeight - 150,
               600: 600,
               'keywords': keywords,
-              'cluster_num': cluster_num
+              'cluster_num': cluster_num,
+              'tech_type': tech_type
             };
+            console.log(post_data);
             return $.ajax({
               type: 'post',
-              url: 'http://192.168.113.2:5000/history/receive/',
+              url: 'http://0.0.0.0:5000/history/receive/',
               data: JSON.stringify(post_data),
               dataType: 'json',
               contentType: 'application/json',
@@ -106,7 +108,7 @@
               }
             });
           };
-        })(post_data, keywords, date, cluster_num));
+        })(post_data, keywords, date, cluster_num, tech_type));
       });
     };
 

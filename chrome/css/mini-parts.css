@@ -31,7 +31,8 @@ nav {
   nav .inner {
     margin: 10px 30px;
     width: 80%;
-    color: #ebe8d3; }
+    color: #ebe8d3;
+    font-size: 1.2em; }
     nav .inner .logo {
       display: inline-block;
       font-size: 32px;
@@ -39,5 +40,14 @@ nav {
       margin-right: 30px; }
     nav .inner .nav-date {
       display: inline-block;
-      font-size: 24px;
-      font-style: italic; }
+      font-size: 24px; }
+
+.left-margin {
+  margin-left: 15px; }
+
+.block {
+  padding: 10px;
+  margin-left: 10px;
+  border-radius: 5px 5px 0 0;
+  background-color: #890a0e;
+  border: 1px solid #ebe8d3; }

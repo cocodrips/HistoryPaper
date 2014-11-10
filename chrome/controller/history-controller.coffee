@@ -4,11 +4,11 @@ class @HistoryController
 
   firstDate: () ->
     now = new Date()
-    @changeDate(now, -1)
+    @changeDate(now, -1, 1)
 
-  changeDate: (date, cluster_num) ->
+  changeDate: (date, cluster_num, tech_type) ->
     @clearView()
-    @history.changeDate(date, cluster_num)
+    @history.changeDate(date, cluster_num, tech_type)
 
   clearView: () ->
     $("#main-container").empty()
