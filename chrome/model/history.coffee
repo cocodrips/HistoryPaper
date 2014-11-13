@@ -3,8 +3,8 @@ histories = []
 class @History
 
   changeDate: (date, cluster_num, tech_type, searchWord = "")->
-    start = Date.parse(date) - (86400000 * 2)
-    end = Date.parse(date) - 86400000
+    start = Date.parse(date)
+    end = Date.parse(date) + 86400000
 
     query = {
       "text": searchWord,
