@@ -3,10 +3,11 @@
   hashmap.forEach(
     (page)=>
       if page.url.indexOf("https://www.google.co.jp/") != -1
-        q = page.url.match /#q=.*\&?/
-        if q
-          q = decodeURI q[0].replace /#q=(.*?)\&?/,'$1'
+        q = getGroup(decodeURI(page.url), /#q=(.*)\&/, 1)
+        if not q
+          q = getGroup(decodeURI(page.url), /#q=(.*)/, 1)
 
+        if q
           q = q.split /[\s,\+]+/
           q.forEach(
             (title)=>
@@ -25,6 +26,12 @@
   keywords.sort((a, b)-> if a['times'] < b['times'] then 1 else -1)
   drawWordList(keywords)
   return keywords
+
+getGroup = (content, re, groupNum) ->
+  m = content.match(re)
+  if m and m.length >= groupNum
+    return m[groupNum]
+  return ""
 
 drawWordList = (sorted)->
   keywordsHtml = ""

@@ -2,7 +2,7 @@ histories = []
 
 class @History
 
-  changeDate: (date, cluster_num, searchWord = "")->
+  changeDate: (date, cluster_num, tech_type, searchWord = "")->
     start = Date.parse(date) - (86400000 * 2)
     end = Date.parse(date) - 86400000
 
@@ -35,7 +35,7 @@ class @History
 
 
       chrome.storage.local.get urls,
-        ((post_data, keywords, date, cluster_num) ->
+        ((post_data, keywords, date, cluster_num, tech_type) ->
           (items) ->
             for key, value of items
               if key.indexOf("https") == -1
@@ -48,8 +48,11 @@ class @History
               'width': window.innerWidth - 380,
               'height': window.innerHeight - 150, 600,
               'keywords':keywords,
-              'cluster_num': cluster_num
+              'cluster_num': cluster_num,
+              'tech_type': tech_type
             }
+
+            console.log post_data
 
             $.ajax (
               type: 'post',
@@ -75,7 +78,7 @@ class @History
                 layout.loaded(false)
                 console.log 'AjaxError:', xhr, type
               )
-            ) post_data, keywords, date, cluster_num
+            ) post_data, keywords, date, cluster_num, tech_type
 
     )
 

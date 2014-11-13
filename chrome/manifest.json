@@ -17,9 +17,9 @@
                 ]
         }
     ],
-    "background": {
-        "page": "background.html"
-    },
+//    "background": {
+//        "page": "background.html"
+//    },
     "permissions": [
         "history",
         "storage",
