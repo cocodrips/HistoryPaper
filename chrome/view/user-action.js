@@ -20,7 +20,7 @@
         date = new Date();
       }
       cluster_num = $('#cluster_num').val();
-      tech_type = 0;
+      tech_type = 2;
       _ref = $('input[name="tech"]');
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         t = _ref[_i];
@@ -28,6 +28,7 @@
           tech_type = t.value;
         }
       }
+      console.log("tec", tech_type);
       now = new Date();
       if (Date.parse(now) >= Date.parse(date)) {
         return controller.changeDate(date, cluster_num, tech_type);

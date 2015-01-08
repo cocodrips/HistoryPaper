@@ -4,26 +4,14 @@
     function HistoryObject(data) {
       this.title = data['title'];
       this.content = data['content'];
-      this.rect = new Rect(data['rect']);
       this.imageurl = data['image_url'];
       this.imageaspect = 0;
       this.url = data['url'];
       this.priority = data['priority'];
+      this.rect = null;
     }
 
     return HistoryObject;
-
-  })();
-
-  this.Rect = (function() {
-    function Rect(vector4) {
-      this.left = vector4[0];
-      this.top = vector4[1];
-      this.width = vector4[2];
-      this.height = vector4[3];
-    }
-
-    return Rect;
 
   })();
 

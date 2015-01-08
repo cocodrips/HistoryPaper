@@ -2,16 +2,8 @@ class @HistoryObject
   constructor: (data)->
     @title = data['title']
     @content = data['content']
-    @rect = new Rect(data['rect'])
     @imageurl = data['image_url']
     @imageaspect = 0
     @url = data['url']
     @priority = data['priority']
-
-class @Rect
-  constructor: (vector4)->
-    @left = vector4[0]
-    @top = vector4[1]
-    @width = vector4[2]
-    @height = vector4[3]
-
+    @rect = null

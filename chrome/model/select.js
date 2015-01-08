@@ -4,6 +4,50 @@
 
   histories = [];
 
+  $(function() {
+    return $('#submit').on('click', function(e) {
+      var content, history, keyword, o, post_data, selected, title, unselected, visit, _i, _len;
+      selected = [];
+      unselected = [];
+      histories = $('.article .article-inner');
+      for (_i = 0, _len = histories.length; _i < _len; _i++) {
+        history = histories[_i];
+        visit = history.children[0].getAttribute('data-visit');
+        keyword = history.children[0].getAttribute('data-keyword');
+        title = history.children[1].innerHTML;
+        content = history.children[2].innerHTML.length;
+        o = {
+          "visit": visit,
+          "keyword": keyword,
+          "title": title,
+          "content": content
+        };
+        if (history.className.indexOf('selected') < 0) {
+          unselected.push(o);
+        } else {
+          selected.push(o);
+        }
+      }
+      post_data = {
+        "selected": selected,
+        "unselected": unselected
+      };
+      return $.ajax({
+        type: 'post',
+        url: 'http://0.0.0.0:5000/history/selected/',
+        data: JSON.stringify(post_data),
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(response) {
+          return console.log("success");
+        },
+        error: function(xhr, type) {
+          return console.log('AjaxError:', xhr, type);
+        }
+      });
+    });
+  });
+
   this.History = (function() {
     function History() {}
 
@@ -84,24 +128,29 @@
             console.log(post_data);
             return $.ajax({
               type: 'post',
-              url: 'http://0.0.0.0:5000/history/receive/',
+              url: 'http://0.0.0.0:5000/history/select/',
               data: JSON.stringify(post_data),
               dataType: 'json',
               contentType: 'application/json',
               success: function(response) {
-                var d, i, _j, _len1;
-                data = response;
-                console.log(data);
-                histories = [];
-                i = 0;
-                for (i = _j = 0, _len1 = data.length; _j < _len1; i = ++_j) {
-                  d = data[i];
-                  histories[i] = new HistoryObject(d);
-                }
-                layout = new Layout(histories);
+                var cluster, html, page, _j, _k, _len1, _len2;
+                layout = new Layout({});
                 layout.loaded(true);
-                layout.setRect(window.innerWidth - 380, window.innerHeight - 150);
-                return layout.drawArticles();
+                data = response;
+                for (_j = 0, _len1 = data.length; _j < _len1; _j++) {
+                  cluster = data[_j];
+                  $('#main-container').append("<hr>");
+                  for (_k = 0, _len2 = cluster.length; _k < _len2; _k++) {
+                    page = cluster[_k];
+                    console.log(page.keyword_count, page);
+                    html = '<div class="article" style="position:relative; width: 400px; height:400px; display: inline-block; vertical-align: top;">' + '<div class="article-inner">' + "<p data-keyword=\"" + page.keyword_count + "\" data-visit=\"" + page.visit_count + "\">" + '<h4>' + page.title + '</h4>' + '<div>' + page.content.slice(0, 501) + '</div>' + '</div>' + '</div>';
+                    $('#main-container').append(html);
+                  }
+                }
+                return $('.article-inner').on('click', function(e) {
+                  $(this).toggleClass('selected');
+                  return console.log(e);
+                });
               },
               error: function(xhr, type) {
                 layout = new Layout({});

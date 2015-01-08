@@ -7,6 +7,7 @@ $url: #be4c41;
   box-sizing: border-box;
 
   .article-inner{
+
     width: 100%;
     height: 100%;
     box-sizing: border-box;
@@ -60,9 +61,14 @@ $url: #be4c41;
 
   }
 
+  .selected {
+    background-color: #76c9c8;
+  }
 
 
 }
+
+
 //
 //.article-inner{
 //  display: block;

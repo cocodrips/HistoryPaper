@@ -56,7 +56,8 @@ class @History
 
             $.ajax (
               type: 'post',
-              url: 'http://192.168.113.2:5000/history/receive/',
+#              url: 'http://192.168.113.2:5000/history/receive/',
+              url: 'http://0.0.0.0:5000/history/receive/',
               data: JSON.stringify(post_data)
               dataType: 'json',
               contentType: 'application/json',
@@ -64,12 +65,14 @@ class @History
                 data = response
 #                data = JSON.parse(response)
 
+                console.log data
                 histories = []
                 i = 0
                 for d, i in data
                   histories[i] = new HistoryObject(d)
                 layout = new Layout(histories)
                 layout.loaded(true)
+                layout.setRect(window.innerWidth - 380, window.innerHeight - 150)
                 layout.drawArticles()
 
               ,

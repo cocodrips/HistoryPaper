@@ -39,3 +39,5 @@
       padding: 10px; }
       .article .article-inner .image_box img {
         margin: 10px; }
+  .article .selected {
+    background-color: #76c9c8; }

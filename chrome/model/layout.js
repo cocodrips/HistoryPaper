@@ -19,38 +19,20 @@
       return this.arrangeArticles(this.histories);
     };
 
-    Layout.prototype.calcSquareSize = function(width, height) {
-      var cols, rectangleWidth, rows, squareSize;
-      rectangleWidth = width / this.aspect;
-      squareSize = height;
-      cols = 0;
-      rows = 1;
-      while (cols * rows < this.clusterNum) {
-        cols++;
-        squareSize = height / cols;
-        rows = Math.round(rectangleWidth / squareSize);
+    Layout.prototype.setRect = function(width, height) {
+      var data, history, i, layout, _i, _j, _len, _ref, _ref1;
+      data = [];
+      _ref = this.histories;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        history = _ref[_i];
+        data.push(new Page(history.priority, "text", history.title));
       }
-      this.cols = cols;
-      this.rows = rows;
-      return this.squareSize = squareSize;
-    };
-
-    Layout.prototype.setPositionInfo2Histories = function(w) {
-      var articleHeight, articleWidth, c, obj, r, _i, _j, _ref, _ref1;
-      articleHeight = this.squareSize;
-      articleWidth = this.squareSize * this.aspect;
-      for (c = _i = 0, _ref = this.cols; 0 <= _ref ? _i < _ref : _i > _ref; c = 0 <= _ref ? ++_i : --_i) {
-        for (r = _j = 0, _ref1 = this.rows; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; r = 0 <= _ref1 ? ++_j : --_j) {
-          obj = this.histories[(c * this.rows) + r];
-          if (obj) {
-            obj.left = r * articleWidth;
-            obj.top = c * articleHeight;
-            obj.width = articleWidth;
-            obj.height = articleHeight;
-          }
-        }
+      layout = new GreedyLayout(null, data, width, height, 400, 400);
+      layout.layout();
+      for (i = _j = 0, _ref1 = this.histories.length; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; i = 0 <= _ref1 ? ++_j : --_j) {
+        this.histories[i].rect = layout.pageSets[i].rect;
       }
-      return this.histories[1];
+      return console.log("history", this.histories);
     };
 
     Layout.prototype.arrangeArticles = function(histories) {
@@ -60,9 +42,9 @@
       }).style("height", function(d) {
         return d.rect.height + "px";
       }).style("top", function(d) {
-        return d.rect.top + "px";
+        return d.rect.y + "px";
       }).style("left", function(d) {
-        return d.rect.left + "px";
+        return d.rect.x + "px";
       }).append("div").attr("class", "article-inner");
       articles.append("a").attr("href", function(d) {
         return d.url;

@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <title>-Historypaper-</title>
+  <meta name="Keywords" content=""/>
+  <meta name="Description" content=""/>
+  <meta charset="UTF-8">
+  <link href='http://fonts.googleapis.com/css?family=Exo+2:400,700,200' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet"
+        href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,700italic,300,700">
+  <link rel="stylesheet" href="css/pure-min.css"/>
+  <link rel="stylesheet" href="css/all.css"/>
+  <link rel="stylesheet" href="css/common.css"/>
+  <link rel="stylesheet" href="css/article.css"/>
+  <link rel="stylesheet" href="css/mini-parts.css"/>
+  <link rel="stylesheet" href="css/icon.css"/>
+
+
+</head>
+<body>
+
+<header>
+
+</header>
+
+<nav>
+  <div class="inner">
+    <div class="logo">HistoryPaper</div>
+    <div class="nav-date">
+      <input id="date" type="date"/>
+
+      <span class="block">
+      クラスタ数
+      <select id="cluster_num" class="pure-input-1-2">
+        <option>6</option>
+        <option selected>9</option>
+        <option>12</option>
+        <option>15</option>
+      </select>
+        </span>
+
+      <span class="block">
+      手法
+        <input type="radio" name="tech" value="1"> 1
+        <input type="radio" name="tech" value="2"> 2
+        <input type="radio" name="tech" value="3"> 3
+        <input type="radio" name="tech" value="4"> 4
+      </span>
+
+      <button id="submit">送信</button>
+    </div>
+
+
+
+  </div>
+</nav>
+
+<div class="pure-g" id="container">
+
+  <table class="frame-table">
+    <tr>
+      <td id="full-screen">
+        <section class="icons loading">
+          <!-- the component -->
+          <ul class="bokeh">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+          Now loading<span class="loading-text">...</span>
+        </section>
+
+        <section class="icons ajax-fail">
+          <div class="ghost-container">
+            <div class="ghost"></div>
+          </div>
+          <div>Sorry<br>
+            we failed to analyze ...
+          </div>
+
+        </section>
+        <div id="main-container">
+        </div>
+
+
+      </td>
+      <td id="sidebar">
+        <div class="article-inner">
+          <h2>検索キーワード</h2>
+
+          <div id="key-cloud"></div>
+
+
+        </div>
+
+      </td>
+
+    </tr>
+  </table>
+
+  <footer></footer>
+
+  <!--libraries-->
+  <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>-->
+  <script src="libs/zepto.min.js"></script>
+  <script src="libs/d3.v3.min.js"></script>
+  <script src="libs/underscore-min.js"></script>
+
+
+  <script src="model/history-object.js"></script>
+  <script src="model/layout-pattern.js"></script>
+  <script src="model/articlemap.js"></script>
+  <script src="model/layout.js"></script>
+  <script src="model/keyword-list.js"></script>
+
+
+  <script src="model/select.js"></script>
+  <script src="controller/history-controller.js"></script>
+  <script src="view/user-action.js"></script>
+
+
+</body>
+</html>

@@ -19,11 +19,12 @@ $ ->
     if date == ""
       date = new Date()
     cluster_num = $('#cluster_num').val()
-    tech_type = 0
+    tech_type = 2
 
     for t in $('input[name="tech"]')
       if t.checked
         tech_type = t.value
+    console.log "tec", tech_type
 
     now = new Date()
     if Date.parse(now) >= Date.parse(date)

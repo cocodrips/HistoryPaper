@@ -12,38 +12,17 @@ class @Layout
     w = window.innerWidth - (40 + 300)
     h = window.innerHeight - 100
     $("#container").css("height", h + "px")
-
-#    @calcSquareSize(w, h)
-#    @setPositionInfo2Histories(w)
     @arrangeArticles(@histories)
 
-  calcSquareSize: (width, height)->
-    rectangleWidth = width / @aspect
-    squareSize = height
-    cols = 0
-    rows = 1
-    while cols * rows < @clusterNum
-      cols++
-      squareSize = height / cols
-      rows = Math.round(rectangleWidth / squareSize)
-    @cols = cols
-    @rows = rows
-    @squareSize = squareSize
-
-  setPositionInfo2Histories:(w) ->
-    articleHeight = @squareSize
-    articleWidth = @squareSize * @aspect
-#    console.log @squareSize
-    #    articleWidth = @squareSize * (w / (@squareSize * @cols))
-    for c in [0...@cols]
-      for r in [0...@rows]
-        obj = @histories[(c * @rows) + r]
-        if obj
-          obj.left = r * articleWidth
-          obj.top = c * articleHeight
-          obj.width = articleWidth
-          obj.height = articleHeight
-    @histories[1]
+  setRect:(width, height)->
+    data = []
+    for history in @histories
+      data.push(new Page(history.priority, "text", history.title))
+    layout = new GreedyLayout(null, data, width, height, 400, 400)
+    layout.layout()
+    for i in [0...@histories.length]
+      @histories[i].rect = layout.pageSets[i].rect
+    console.log "history", @histories
 
   arrangeArticles: (histories)->
 #    console.log histories
@@ -55,8 +34,8 @@ class @Layout
       .attr("class", "article")
       .style("width", (d)-> return d.rect.width + "px")
       .style("height", (d)-> return d.rect.height + "px")
-      .style("top", (d)-> return d.rect.top + "px")
-      .style("left", (d)-> return d.rect.left + "px")
+      .style("top", (d)-> return d.rect.y + "px")
+      .style("left", (d)-> return d.rect.x + "px")
       .append("div")
       .attr("class", "article-inner")
 
