@@ -536,7 +536,7 @@
         topRect.width = parentRect.width;
         topRect.height = idealArea / topRect.width;
         return {
-          diff: 0,
+          diff: 0.5 * pageUtils.length(remainingSets),
           pageSets: remainingSets,
           topRect: topRect
         };

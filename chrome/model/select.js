@@ -15,7 +15,7 @@
         visit = history.children[0].getAttribute('data-visit');
         keyword = history.children[0].getAttribute('data-keyword');
         title = history.children[1].innerHTML;
-        content = history.children[2].innerHTML.length;
+        content = history.children[0].getAttribute('data-content');
         o = {
           "visit": visit,
           "keyword": keyword,
@@ -34,12 +34,12 @@
       };
       return $.ajax({
         type: 'post',
-        url: 'http://0.0.0.0:5000/history/selected/',
+        url: 'http://192.168.113.2:5000/history/selected/',
         data: JSON.stringify(post_data),
         dataType: 'json',
         contentType: 'application/json',
         success: function(response) {
-          return console.log("success");
+          return alert("success");
         },
         error: function(xhr, type) {
           return console.log('AjaxError:', xhr, type);
@@ -128,7 +128,7 @@
             console.log(post_data);
             return $.ajax({
               type: 'post',
-              url: 'http://0.0.0.0:5000/history/select/',
+              url: 'http://192.168.113.2:5000/history/select/',
               data: JSON.stringify(post_data),
               dataType: 'json',
               contentType: 'application/json',
@@ -139,11 +139,10 @@
                 data = response;
                 for (_j = 0, _len1 = data.length; _j < _len1; _j++) {
                   cluster = data[_j];
-                  $('#main-container').append("<hr>");
                   for (_k = 0, _len2 = cluster.length; _k < _len2; _k++) {
                     page = cluster[_k];
                     console.log(page.keyword_count, page);
-                    html = '<div class="article" style="position:relative; width: 400px; height:400px; display: inline-block; vertical-align: top;">' + '<div class="article-inner">' + "<p data-keyword=\"" + page.keyword_count + "\" data-visit=\"" + page.visit_count + "\">" + '<h4>' + page.title + '</h4>' + '<div>' + page.content.slice(0, 501) + '</div>' + '</div>' + '</div>';
+                    html = '<div class="article" style="position:relative; width: 400px; height:400px; display: inline-block; vertical-align: top;">' + '<div class="article-inner">' + "<p data-keyword=\"" + page.keyword_count + "\" data-visit=\"" + page.visit_count + "\"data-content=\"" + page.content.length + "\" >" + '<h4>' + page.title + '</h4>' + '<div>' + page.content.slice(0, 501) + '</div>' + '</div>' + '</div>';
                     $('#main-container').append(html);
                   }
                 }

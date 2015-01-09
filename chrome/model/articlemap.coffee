@@ -356,7 +356,7 @@ class @GreedyLayout extends Base
     if parentRect.width - topRect.width < @minWidth
       topRect.width = parentRect.width
       topRect.height = idealArea / topRect.width
-      return  {diff: 0, pageSets: remainingSets, topRect: topRect}
+      return  {diff: 0.5* pageUtils.length(remainingSets), pageSets: remainingSets, topRect: topRect}
 
     if parentRect.height - topRect.height < @minHeight
       topRect.height = parentRect.height

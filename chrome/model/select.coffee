@@ -9,7 +9,7 @@ $ ->
       visit = history.children[0].getAttribute('data-visit')
       keyword = history.children[0].getAttribute('data-keyword')
       title = history.children[1].innerHTML
-      content = history.children[2].innerHTML.length
+      content = history.children[0].getAttribute('data-content')
       o = {"visit": visit, "keyword": keyword, "title": title, "content": content}
       if history.className.indexOf('selected') < 0
         unselected.push(o)
@@ -19,12 +19,12 @@ $ ->
 
     $.ajax (
       type: 'post',
-      url: 'http://0.0.0.0:5000/history/selected/',
+      url: 'http://192.168.113.2:5000/history/selected/',
       data: JSON.stringify(post_data)
       dataType: 'json',
       contentType: 'application/json',
       success: (response) ->
-        console.log "success"
+        alert "success"
       ,
       error: (xhr, type) ->
         console.log 'AjaxError:', xhr, type
@@ -86,7 +86,7 @@ class @History
 
             $.ajax (
               type: 'post',
-              url: 'http://0.0.0.0:5000/history/select/',
+              url: 'http://192.168.113.2:5000/history/select/',
               data: JSON.stringify(post_data)
               dataType: 'json',
               contentType: 'application/json',
@@ -96,13 +96,12 @@ class @History
 
                 data = response
                 for cluster in data
-                  $('#main-container').append("<hr>")
-
+#                  $('#main-container').append("<hr>")
                   for page in cluster
                     console.log page.keyword_count, page
                     html = '<div class="article" style="position:relative; width: 400px; height:400px; display: inline-block; vertical-align: top;">' +
                         '<div class="article-inner">' +
-                        "<p data-keyword=\"" + page.keyword_count + "\" data-visit=\"" + page.visit_count + "\">" +
+                        "<p data-keyword=\"" + page.keyword_count + "\" data-visit=\"" + page.visit_count + "\"data-content=\"" + page.content.length + "\" >" +
                         '<h4>' + page.title + '</h4>' +
                         '<div>' + page.content[0..500] + '</div>' +
                         '</div>' +
