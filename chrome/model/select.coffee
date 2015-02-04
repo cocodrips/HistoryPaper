@@ -86,7 +86,9 @@ class @History
 
             $.ajax (
               type: 'post',
-              url: 'http://192.168.113.2:5000/history/select/',
+              url: 'http://0.0.0.0:5000/history/select/',
+
+#              url: 'http://192.168.113.2:5000/history/select/',
               data: JSON.stringify(post_data)
               dataType: 'json',
               contentType: 'application/json',

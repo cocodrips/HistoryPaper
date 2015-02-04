@@ -36,7 +36,7 @@
     };
 
     Layout.prototype.arrangeArticles = function(histories) {
-      var articles, content_header_height, images;
+      var articles, content_header_height, images, li_num;
       articles = d3.select("#main-container").selectAll("article").data(histories).enter().append("article").attr("class", "article").style("width", function(d) {
         return d.rect.width + "px";
       }).style("height", function(d) {
@@ -65,12 +65,11 @@
       });
       articles.append("a").attr("href", function(d) {
         return d.url;
-      }).attr("target", "_blank").append("div").attr("class", "url").text(function(d) {
-        if (d.rect.height < this.title_only) {
-          return "";
-        } else {
-          return d.url;
-        }
+      }).attr("target", "_blank");
+      articles.append("div").attr("class", "tag-container").selectAll("span").data(function(d) {
+        return d.categories;
+      }).enter().append("span").attr("class", "tag").text(function(d) {
+        return d;
       });
       images = articles.append("div").attr("class", "image_box").style("max-width", function(d) {
         if (d.rect.width < d.rect.height * 1.6) {
@@ -103,6 +102,14 @@
         }
       });
       content_header_height = 150;
+      li_num = 4;
+      articles.append("ul").selectAll("li").data(function(d) {
+        return _.zip(d.titles.slice(0, 4), d.urls.slice(0, 4));
+      }).enter().append("li").append("a").attr("href", function(d) {
+        return d[1];
+      }).attr("target", "_blank").text(function(d) {
+        return d[0];
+      });
       articles.append("div").attr("class", "content").text(function(d) {
         return d.content;
       });

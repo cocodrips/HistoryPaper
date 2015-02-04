@@ -53,12 +53,22 @@ class @Layout
       .style("max-height", (d)-> return if d.rect.height < @title_only then "1.5em" else "3.0em")
 
 
-    articles.append("a")
+    articles
+      .append("a")
       .attr("href", (d) -> return d.url)
       .attr("target", "_blank")
-      .append("div")
-      .attr("class", "url")
-      .text((d) -> return if d.rect.height < @title_only then "" else d.url)
+#      .append("div")
+#      .attr("class", "url")
+#      .text((d) -> return if d.rect.height < @title_only then "" else d.url)
+
+    articles.append("div")
+      .attr("class", "tag-container")
+      .selectAll("span")
+      .data((d) -> return d.categories)
+      .enter()
+      .append("span")
+      .attr("class", "tag")
+      .text((d)-> return d)
 
     images = articles
       .append("div")
@@ -80,11 +90,37 @@ class @Layout
 
     content_header_height = 150
 
+    li_num = 4
+    articles.append("ul")
+      .selectAll("li")
+      .data((d) -> return _.zip(d.titles[0...4], d.urls[0...4]))
+      .enter()
+      .append("li")
+      .append("a")
+      .attr("href", (d) -> d[1])
+      .attr("target", "_blank")
+      .text((d)-> return d[0])
+
     articles.append("div")
       .attr("class", "content")
       .text((d) ->
         return d.content
       )
+
+
+
+#    c.append("div")
+#      .text((d) ->
+#        return d.content
+#      )
+
+
+
+#    articles.append("div")
+#      .attr("class", "content")
+#      .text((d) ->
+#        return d.content
+#      )
 
 
     $('img').remove()

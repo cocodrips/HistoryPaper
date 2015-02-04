@@ -1,3 +1,13 @@
+class @Page
+  constructor: (@priority, @type, @name = null) ->
+    @originalPriority = @priority
+    @rect = new Rect()
+    @id = Math.random()
+    @idealArea = 0
+
+  isEqual: (other)->
+    return if other.id then @id == other.id else false
+
 class @Rect
   constructor: (@x = 0, @y = 0, @width = 0, @height = 0) ->
 
@@ -15,213 +25,6 @@ class @Rect
 
   vec4: () ->
     return [@x, @y, @width, @height]
-
-class RectType
-  constructor: (@ratio, @minAlign = 1) ->
-
-@rectTypes =
-  'image': [
-    new RectType(0.9, 1)
-    new RectType(1.6, 1)
-    new RectType(3.0, 2)
-    new RectType(3.8, 2)
-  ]
-  'text': [
-    new RectType(3.8, 1)
-    new RectType(1.0, 1)
-  ]
-
-class @Page
-  constructor: (@priority, @type, @name = null) ->
-    @originalPriority = @priority
-    @rect = new Rect()
-    @id = Math.random()
-    @idealArea = 0
-
-  isEqual: (other)->
-    return if other.id then @id == other.id else false
-
-
-@pageUtils =
-  isGroup: (pageSet) ->
-    return pageSet instanceof Array
-
-  prioritySum: (pageSets) ->
-    if !pageUtils.isGroup(pageSets)
-      return pageSets.priority
-
-    s = 0
-    for i in [0...pageSets.length]
-      s += pageUtils.prioritySum(pageSets[i])
-    return s
-
-  length: (pageSets) ->
-    if not pageUtils.isGroup(pageSets)
-      return 1
-
-    s = 0
-    for i in [0...pageSets.length]
-      s += pageUtils.length(pageSets[i])
-    return s
-
-  avg: (pageSets) ->
-    return pageUtils.prioritySum(pageSets) / pageUtils.length(pageSets)
-
-  max: (pageSets) ->
-    if !pageUtils.isGroup(pageSets)
-      return pageSets
-    maxi = 0
-    maxIndex = 0
-    for i in [0...pageSets.length]
-      v = pageUtils.avg[pageSets[i]]
-      if maxi < v
-        maxi = v
-        maxIndex = i
-    return pageSets[maxIndex]
-
-  sort: (pageSets, reverse = false, key = null) ->
-    if !key
-      key = (a, b) -> pageUtils.prioritySum(a) - pageUtils.prioritySum(b)
-    pageSets.sort(key)
-    if reverse
-      pageSets.reverse()
-
-
-  idealSum: (pageSets) ->
-    if !pageUtils.isGroup(pageSets)
-      return pageSets.idealArea
-
-    s = 0
-    for i in [0...pageSets.length]
-      s += pageUtils.idealSum(pageSets[i])
-    return s
-
-  grouping: (pageSets, range = 1.3) ->
-    # Grouping pages whose type is same and priority difference is within range.
-    # args:
-    #   pageSets: Flat array. ( ex. [new Page(1, "text"), new Page(2, "text")] )
-    pageSets = [].concat(pageSets)
-
-    pageUtils.sort(pageSets)
-
-    top = pageSets.pop()
-    groups = [[top]]
-
-    for rectType of rectTypes
-      # Get pageSets whose type is same.
-      pages = (pageSet for pageSet in pageSets when pageSet.type == rectType)
-      pageUtils.sort(pages, reverse = true)
-
-
-      while pages.length > 0
-        base = pages.pop()
-        group = [base]
-
-        if pages.length > 0 and pages[pages.length - 1].originalPriority <= Math.ceil(base.originalPriority * range)
-          group.push(pages.pop())
-        groups.push(group)
-
-    pageUtils.sort(groups, reverse = true, key = (a, b)-> pageUtils.avg(a) - pageUtils.avg(b))
-    return groups
-
-  getOptimumSet: (pageSets, rect) ->
-    s = Infinity
-    #    match = Infinity | 1000000000000
-    optimumSet = null
-    #    for i in [1..4] # Change value depends on pageSet length.
-    #      dict = pageUtils.combination(pageSets, i, s, match, optimumSet)
-    #      match = dict.match
-    #      optimumSet = dict.optimumSet
-
-    # TODO:// Implement combination function!
-
-    for i in [1...1 << pageSets.length]
-      bit = 0
-      j = i
-      set = []
-      idealSum = 0
-      for k in [0...pageSets.length]
-        if j % 2 == 1
-          idealSum += pageUtils.idealSum(pageSets[k])
-          set.push(pageSets[k])
-          bit++
-        j = j >> 1
-
-      if bit < 3 and Math.abs(rect.area() - idealSum) < s
-        s = Math.abs(rect.area() - idealSum)
-        optimumSet = set
-    return optimumSet
-
-  combination: (pageSets, n, s, match, optimumSet) ->
-    if pageSets.length < n
-      return {"match": match, "optimumSet": optimumSet}
-
-    for pageSet in pageUtils.nCombination(pageSets, n)
-      areaSum = pageUtils.sum(pageSet, (x) -> pageUtils.idealSum(x))
-      if Math.abs(s - areaSum) < Math.abs(s - match)
-        optimumSet = pageSet
-        match = areaSum
-    return {"match": match, "optimumSet": optimumSet}
-
-  nCombination: (sets, n) ->
-    if sets.length < n or n <= 0
-      return []
-
-    if sets.length == n
-      return [sets]
-
-    if n == 1
-      return (c for c in sets)
-
-    combs = []
-    for i in [0...sets.length - n + 1]
-      head = sets.slice(i, i + 1);
-      tailcombs = pageUtils.nCombination(sets.slice(i + 1), n - 1)
-      for j in [0...tailcombs.length]
-        combs.push(head.concat(tailcombs[j]))
-    return combs
-
-  deformPriorities: (pageSets, area, min_width, min_height) ->
-    prioritySum = pageUtils.prioritySum(pageSets)
-    areaMin = min_height * min_height
-    x = (area / areaMin) / prioritySum
-
-    for pageSet in pageSets
-      if pageUtils.isGroup(pageSet)
-        for page in pageSet
-          page.priority = Math.ceil(x * page.priority)
-      else
-        pageSet.priority = Math.ceil(x * pageSet.priority)
-
-
-  debug: (pageSets) ->
-    if !pageUtils.isGroup(pageSets)
-      return pageSets.priority
-    return (pageUtils.debug(pageSet) for pageSet in pageSets)
-
-  diffRatio: (rect, rectType, align = 0) ->
-    minRatio = 10000
-    for t in rectTypes[rectType]
-      if align > 0 and align < t.minAlign
-        continue
-      ratio = rect.width / rect.height
-      minRatio = Math.min(minRatio, if t.ratio < ratio then ratio / t.ratio else t.ratio / ratio)
-    return minRatio
-
-  isFlat: (pageSets) ->
-    for page in pageSets
-      if pageUtils.isGroup(page)
-        return false
-    return true
-
-  sum: (array, f = null) ->
-    if !f
-      f = (x) -> return x
-    s = 0
-    for a in array
-      s += f(a)
-    return s
-
 
 DEFAULT_WIDTH = 500
 DEFAULT_HEIGHT = 500
@@ -356,12 +159,12 @@ class @GreedyLayout extends Base
     if parentRect.width - topRect.width < @minWidth
       topRect.width = parentRect.width
       topRect.height = idealArea / topRect.width
-      return  {diff: 0.5* pageUtils.length(remainingSets), pageSets: remainingSets, topRect: topRect}
+      return  {diff:0.5* pageUtils.length(remainingSets), pageSets: remainingSets, topRect: topRect}
 
     if parentRect.height - topRect.height < @minHeight
       topRect.height = parentRect.height
       topRect.width = idealArea / topRect.height
-      return  {diff: 0, pageSets: [], topRect: topRect}
+      return  {diff:0, pageSets: [], topRect: topRect}
 
     bottomRect = @bottomRect(parentRect, topRect)
     diff_dict = @diffFromIdealArea(remainingSets, bottomRect)
@@ -411,3 +214,201 @@ class @GreedyLayout extends Base
         page.rect = pageRect
 
     return tmpRects
+
+
+'use strict'
+@pageUtils =
+  isGroup: (pageSet) ->
+    return pageSet instanceof Array
+
+  prioritySum: (pageSets) ->
+    if !pageUtils.isGroup(pageSets)
+      return pageSets.priority
+
+    s = 0
+    for i in [0...pageSets.length]
+      s += pageUtils.prioritySum(pageSets[i])
+    return s
+
+  length: (pageSets) ->
+    if not pageUtils.isGroup(pageSets)
+      return 1
+
+    s = 0
+    for i in [0...pageSets.length]
+      s += pageUtils.length(pageSets[i])
+    return s
+
+  avg: (pageSets) ->
+    return pageUtils.prioritySum(pageSets) / pageUtils.length(pageSets)
+
+  max: (pageSets) ->
+    if !pageUtils.isGroup(pageSets)
+      return pageSets
+    maxi = 0
+    maxIndex = 0
+    for i in [0...pageSets.length]
+      v = pageUtils.avg[pageSets[i]]
+      if maxi < v
+        maxi = v
+        maxIndex = i
+    return pageSets[maxIndex]
+
+  sort: (pageSets, reverse = false, key = null) ->
+    if !key
+      key = (a, b) -> pageUtils.prioritySum(a) - pageUtils.prioritySum(b)
+    pageSets.sort(key)
+    if reverse
+      pageSets.reverse()
+
+
+  idealSum: (pageSets) ->
+    if !pageUtils.isGroup(pageSets)
+      return pageSets.idealArea
+
+    s = 0
+    for i in [0...pageSets.length]
+      s += pageUtils.idealSum(pageSets[i])
+    return s
+
+  grouping: (pageSets, range = 1.3) ->
+    # Grouping pages whose type is same and priority difference is within range.
+    # args:
+    #   pageSets: Flat array. ( ex. [new Page(1, "text"), new Page(2, "text")] )
+    pageSets = [].concat(pageSets)
+
+    pageUtils.sort(pageSets)
+
+    top = pageSets.pop()
+    groups = [[top]]
+
+    for rectType of rectTypes
+      # Get pageSets whose type is same.
+      pages = (pageSet for pageSet in pageSets when pageSet.type == rectType)
+      pageUtils.sort(pages, reverse = true)
+
+
+      while pages.length > 0
+        base = pages.pop()
+        group = [base]
+
+        if pages.length > 0 and pages[pages.length - 1].originalPriority <= Math.ceil(base.originalPriority * range)
+          group.push(pages.pop())
+        groups.push(group)
+
+    pageUtils.sort(groups, reverse = true, key = (a, b)-> pageUtils.avg(a) - pageUtils.avg(b))
+    return groups
+
+  getOptimumSet: (pageSets, rect) ->
+    s = Infinity
+    #    match = Infinity | 1000000000000
+    optimumSet = null
+    #    for i in [1..4] # Change value depends on pageSet length.
+    #      dict = pageUtils.combination(pageSets, i, s, match, optimumSet)
+    #      match = dict.match
+    #      optimumSet = dict.optimumSet
+
+    # TODO:// Implement combination function!
+
+    for i in [1...1 << pageSets.length]
+      bit = 0
+      j = i
+      set = []
+      idealSum = 0
+      for k in [0...pageSets.length]
+        if j % 2 == 1
+          idealSum += pageUtils.idealSum(pageSets[k])
+          set.push(pageSets[k])
+          bit++
+        j = j >> 1
+
+      if Math.abs(rect.area() - idealSum) < s and bit < 3
+        s = Math.abs(rect.area() - idealSum)
+        optimumSet = set
+    return optimumSet
+
+  combination: (pageSets, n, s, match, optimumSet) ->
+    if pageSets.length < n
+      return {"match": match, "optimumSet": optimumSet}
+
+    for pageSet in pageUtils.nCombination(pageSets, n)
+      areaSum = pageUtils.sum(pageSet, (x) -> pageUtils.idealSum(x))
+      if Math.abs(s - areaSum) < Math.abs(s - match)
+        optimumSet = pageSet
+        match = areaSum
+    return {"match": match, "optimumSet": optimumSet}
+
+  nCombination: (sets, n) ->
+    if sets.length < n or n <= 0
+      return []
+
+    if sets.length == n
+      return [sets]
+
+    if n == 1
+      return (c for c in sets)
+
+    combs = []
+    for i in [0...sets.length - n + 1]
+      head = sets.slice(i, i + 1);
+      tailcombs = pageUtils.nCombination(sets.slice(i + 1), n - 1)
+      for j in [0...tailcombs.length]
+        combs.push(head.concat(tailcombs[j]))
+    return combs
+
+  deformPriorities: (pageSets, area, min_width, min_height) ->
+    prioritySum = pageUtils.prioritySum(pageSets)
+    areaMin = min_height * min_height
+    x = (area / areaMin) / prioritySum
+
+    for pageSet in pageSets
+      if pageUtils.isGroup(pageSet)
+        for page in pageSet
+          page.priority = Math.ceil(x * page.priority)
+      else
+        pageSet.priority = Math.ceil(x * pageSet.priority)
+
+
+  debug: (pageSets) ->
+    if !pageUtils.isGroup(pageSets)
+      return pageSets.priority
+    return (pageUtils.debug(pageSet) for pageSet in pageSets)
+
+  diffRatio: (rect, rectType, align=0) ->
+    minRatio = 10000
+    for t in rectTypes[rectType]
+      if align > 0 and align < t.minAlign
+        continue
+      ratio = rect.width / rect.height
+      minRatio = Math.min(minRatio, if t.ratio < ratio then ratio / t.ratio else t.ratio / ratio)
+    return minRatio
+
+  isFlat: (pageSets) ->
+    for page in pageSets
+      if pageUtils.isGroup(page)
+        return false
+    return true
+
+  sum: (array, f = null) ->
+    if !f
+      f = (x) -> return x
+    s = 0
+    for a in array
+      s += f(a)
+    return s
+
+
+class RectType
+  constructor: (@ratio, @minAlign=1) ->
+
+@rectTypes =
+  'image': [
+    new RectType(0.9, 1)
+    new RectType(1.6, 1)
+    new RectType(3.0, 2)
+    new RectType(3.8, 2)
+  ]
+  'text':[
+    new RectType(3.8, 1)
+    new RectType(1.0, 1)
+  ]

@@ -8,7 +8,10 @@
       this.imageaspect = 0;
       this.url = data['url'];
       this.priority = data['priority'];
-      this.rect = null;
+      this.rect = new Rect(data['rect'][0], data['rect'][1], data['rect'][2], data['rect'][3]);
+      this.urls = data['urls'];
+      this.titles = data['titles'];
+      this.categories = data['categories'];
     }
 
     return HistoryObject;
