@@ -43,9 +43,11 @@
     border-style: inherit; }
     .article-inner ul li {
       padding: 3px 0;
+      list-style-position: inside;
+      white-space: nowrap;
+      overflow: hidden;
       text-overflow: ellipsis;
-      list-style: none;
-      white-space: nowrap; }
+      list-style: none; }
       .article-inner ul li a {
         color: #434343; }
     .article-inner ul li:before {

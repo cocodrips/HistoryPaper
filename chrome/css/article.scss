@@ -70,9 +70,12 @@ $tag: #B89B99;
         color: $small_link;
       }
       padding: 3px 0;
+      list-style-position:inside;
+      white-space: nowrap;
+      overflow: hidden;
       text-overflow: ellipsis;
       list-style: none;
-      white-space: nowrap;
+
     }
     li:before {
       content: "▶ ";

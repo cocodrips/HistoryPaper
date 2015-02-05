@@ -1,7 +1,7 @@
 class @HistoryObject
   constructor: (data)->
     @title = data['title']
-    @content = data['content']
+    @content = data['main_content']
     @imageurl = data['image_url']
     @imageaspect = 0
     @url = data['url']

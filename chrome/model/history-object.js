@@ -3,7 +3,7 @@
   this.HistoryObject = (function() {
     function HistoryObject(data) {
       this.title = data['title'];
-      this.content = data['content'];
+      this.content = data['main_content'];
       this.imageurl = data['image_url'];
       this.imageaspect = 0;
       this.url = data['url'];

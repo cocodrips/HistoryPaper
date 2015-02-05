@@ -20,6 +20,7 @@ $ ->
     $.ajax (
       type: 'post',
       url: 'http://192.168.113.2:5000/history/selected/',
+#      url: 'http://0.0.0.0:5000/history/selected/',
       data: JSON.stringify(post_data)
       dataType: 'json',
       contentType: 'application/json',
@@ -86,9 +87,8 @@ class @History
 
             $.ajax (
               type: 'post',
-              url: 'http://0.0.0.0:5000/history/select/',
-
-#              url: 'http://192.168.113.2:5000/history/select/',
+#              url: 'http://0.0.0.0:5000/history/select/',
+              url: 'http://192.168.113.2:5000/history/select/',
               data: JSON.stringify(post_data)
               dataType: 'json',
               contentType: 'application/json',
@@ -103,9 +103,9 @@ class @History
                     console.log page.keyword_count, page
                     html = '<div class="article" style="position:relative; width: 400px; height:400px; display: inline-block; vertical-align: top;">' +
                         '<div class="article-inner">' +
-                        "<p data-keyword=\"" + page.keyword_count + "\" data-visit=\"" + page.visit_count + "\"data-content=\"" + page.content.length + "\" >" +
+                        "<p data-keyword=\"" + page.keyword_count + "\" data-visit=\"" + page.visit_count + "\"data-content=\"" + page.main_content.length + "\" >" +
                         '<h4>' + page.title + '</h4>' +
-                        '<div>' + page.content[0..500] + '</div>' +
+                        '<div>' + page.main_content[0..500] + '</div>' +
                         '</div>' +
                         '</div>'
                     $('#main-container').append(html)
